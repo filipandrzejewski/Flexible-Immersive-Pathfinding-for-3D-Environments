@@ -30,6 +30,45 @@ public class AgentJumpToTarget : MonoBehaviour
     Vector3[] _jumpPath;
     bool previousRigidBodyState;
 
+    private void Start()
+    {
+        Debug.Log(NavMeshAgent.areaMask);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray reycastClick = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(reycastClick, out var hitInfo))
+            {
+                Debug.Log("Mouse click on point: " + hitInfo.point);
+                TargetPoint = hitInfo.point;
+                GetStartPointAndMoveToPosition();
+            }
+        }
+
+        if (checkForStartPointReached)
+        {
+            var distance = (_transform.position - JumpStartPoint).sqrMagnitude;
+
+            if (distance <= ReachedStartPointDistance * ReachedStartPointDistance)
+            {
+                ReadyToJump();
+
+                if (NavMeshAgent.isOnNavMesh)
+                {
+                    NavMeshAgent.isStopped = true;
+                }
+
+                checkForStartPointReached = false;
+
+                PerformJump();
+
+            }
+        }
+    }
+
     // remove the [Button] code if you don't have Odin
     public void GetStartPointAndMoveToPosition()
     {
@@ -82,7 +121,6 @@ public class AgentJumpToTarget : MonoBehaviour
 
     void SpawnAgentAndGetPoint()
     {
-        // If using Pooling Spawn here instead
         _dummyAgent = Instantiate(DummyAgent, TargetPoint, Quaternion.identity);
         var info = _dummyAgent.GetComponent<ReturnNavmeshInfo>();
         EndJumpPosition = info.ReturnClosestPointBackToAgent(transform.position);
@@ -111,6 +149,7 @@ public class AgentJumpToTarget : MonoBehaviour
         }
         else
         {
+            Destroy(_dummyAgent.gameObject);
             Debug.Log("Too far to jump");
         }
     }
@@ -138,37 +177,5 @@ public class AgentJumpToTarget : MonoBehaviour
         Path.Clear();
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            Ray reycastClick = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(reycastClick, out var hitInfo))
-            {
-                Debug.Log("Mouse click on point: " + hitInfo.point);
-                TargetPoint = hitInfo.point;
-                GetStartPointAndMoveToPosition();
-            }
-        }
-
-        if (checkForStartPointReached)
-        {
-            var distance = (_transform.position - JumpStartPoint).sqrMagnitude;
-
-            if (distance <= ReachedStartPointDistance * ReachedStartPointDistance)
-            {
-                ReadyToJump();
-
-                if(NavMeshAgent.isOnNavMesh)
-                {
-                    NavMeshAgent.isStopped = true;
-                }
-               
-                checkForStartPointReached = false;
-
-                PerformJump();
-
-            }           
-        }
-    }
+    
 }
