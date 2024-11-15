@@ -349,26 +349,26 @@ namespace eDmitriyAssets.NavmeshLinksGenerator
 
 
 
-    [Serializable]
-    public class Edge
-    {
-        public Vector3 start;
-        public Vector3 end;
+    //[Serializable]
+    //public class Edge
+    //{
+    //    public Vector3 start;
+    //    public Vector3 end;
 
-        public Vector3 startUp;
-        public Vector3 endUp;
+    //    public Vector3 startUp;
+    //    public Vector3 endUp;
 
-        public float length;
-        public Quaternion facingNormal;
-        public bool facingNormalCalculated = false;
+    //    public float length;
+    //    public Quaternion facingNormal;
+    //    public bool facingNormalCalculated = false;
 
 
-        public Edge( Vector3 startPoint, Vector3 endPoint )
-        {
-            start = startPoint;
-            end = endPoint;
-        }
-    }
+    //    public Edge( Vector3 startPoint, Vector3 endPoint )
+    //    {
+    //        start = startPoint;
+    //        end = endPoint;
+    //    }
+    //}
 
 
 
