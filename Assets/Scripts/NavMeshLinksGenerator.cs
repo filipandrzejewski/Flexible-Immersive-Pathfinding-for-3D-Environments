@@ -7,6 +7,14 @@ using Unity.AI.Navigation;
 
 public class NavMeshLinksGenerator : MonoBehaviour
 {
+    public Transform linkPrefab;
+    public GameObject debugPivotPointPrefab;
+    public NavMeshSurface navMeshSurface;
+
+    private float linkCheckOffset;
+    private NavMeshBuildSettings navMeshSettings;
+
+    private Transform linkGroup;
     public float minEdgeLength = 0.2f; // minimal distance to classify Edge (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
     private List<Edge> edges = new List<Edge>();
     private Vector3[] vertices; // every vertice of the nav mesh
@@ -15,12 +23,24 @@ public class NavMeshLinksGenerator : MonoBehaviour
     private void Start()
     {
         FindEdges();
-       
+        linkGroup = new GameObject("LinkGroup").transform;
+        GetCurrentNavMeshSettings();
+        //CreateLinks();
+
+        //navMeshSurface.BuildNavMesh();
+
     }
 
     private void Update()
     {
        HighlightEdges(edges);
+    }
+
+    private void GetCurrentNavMeshSettings()
+    {
+        navMeshSettings = NavMesh.GetSettingsByID(navMeshSurface.agentTypeID);
+        linkCheckOffset = 0.6f * navMeshSettings.agentRadius;
+
     }
 
     private void FindEdges()
@@ -40,10 +60,20 @@ public class NavMeshLinksGenerator : MonoBehaviour
             PairToEdge(i + 2, i);
         }
 
+        Debug.Log(edges.Count);
+
 
         foreach (Edge edge in edges)
         {
-            edge.length = Vector3.Distance(edge.start, edge.end);
+            if (edge.hasPivotPoint)
+            {
+                Instantiate(debugPivotPointPrefab, edge.pivotPoint, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(LinkController.Instance.debugCornerPointPrefab, edge.start, Quaternion.identity);
+                Instantiate(LinkController.Instance.debugCornerPointPrefab, edge.end, Quaternion.identity);
+            }
         }
     }
 
@@ -70,6 +100,30 @@ public class NavMeshLinksGenerator : MonoBehaviour
         }
 
         edges.Add(newEdge);
+    }
+
+    private void CreateLinks()
+    {
+        if (linkPrefab == null) { return; }
+
+        foreach (Edge edge in edges)
+        {
+            foreach (Edge targetEdge in edges)
+            {
+                Vector3 direction = (targetEdge.midPoint - edge.midPoint).normalized;
+                float distance = Vector3.Distance(targetEdge.midPoint, edge.midPoint);
+
+                if (!Physics.Raycast(edge.midPoint, direction, distance)) // no collision detected
+                {
+                    Transform linkObject = Instantiate(linkPrefab.transform, edge.midPoint, Quaternion.LookRotation(direction));
+                    var link = linkObject.GetComponent<NavMeshLink>();
+                    link.endPoint = linkObject.transform.InverseTransformPoint(targetEdge.midPoint); // transform global Vector3 targetEdge.midPoint into local relative to linkObject
+                    link.UpdateLink();
+                    linkObject.transform.SetParent(linkGroup);
+                }
+                
+            }
+        } 
     }
 
 
