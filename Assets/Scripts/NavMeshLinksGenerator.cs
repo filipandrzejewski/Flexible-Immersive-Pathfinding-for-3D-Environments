@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor.SceneManagement;
-using Unity.AI.Navigation;
 
 public class NavMeshLinksGenerator : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
     private float linkCheckOffset;
     private NavMeshBuildSettings navMeshSettings;
 
-    private Transform linkGroup;
+    private Transform allLinksGroup;
     public float minEdgeLength = 0.2f; // minimal distance to classify Edge (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
     private List<Edge> edges = new List<Edge>();
     private Vector3[] vertices; // every vertice of the nav mesh
@@ -23,17 +22,25 @@ public class NavMeshLinksGenerator : MonoBehaviour
     private void Start()
     {
         FindEdges();
-        linkGroup = new GameObject("LinkGroup").transform;
+        allLinksGroup = new GameObject("AllLinksGroup").transform;
         GetCurrentNavMeshSettings();
-        //CreateLinks();
+        CreateLinks();
 
-        //navMeshSurface.BuildNavMesh();
+        navMeshSurface.BuildNavMesh();
 
     }
 
     private void Update()
     {
-       HighlightEdges(edges);
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ClearLinksAndEdges();
+        }
+
+        if (Input.GetKey(KeyCode.Return))
+        {
+            CreateLinks();
+        }
     }
 
     private void GetCurrentNavMeshSettings()
@@ -60,8 +67,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
             PairToEdge(i + 2, i);
         }
 
-        Debug.Log(edges.Count);
-
 
         foreach (Edge edge in edges)
         {
@@ -75,6 +80,8 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 Instantiate(LinkController.Instance.debugCornerPointPrefab, edge.end, Quaternion.identity);
             }
         }
+
+        edges.RemoveAll(edge => !edge.hasPivotPoint);
     }
 
     private void PairToEdge(int n1, int n2)     
@@ -102,26 +109,45 @@ public class NavMeshLinksGenerator : MonoBehaviour
         edges.Add(newEdge);
     }
 
-    private void CreateLinks()
+    public void CreateLinks()
     {
+        Debug.Log("Creating Links");
         if (linkPrefab == null) { return; }
 
         foreach (Edge edge in edges)
         {
             foreach (Edge targetEdge in edges)
             {
-                Vector3 direction = (targetEdge.midPoint - edge.midPoint).normalized;
-                float distance = Vector3.Distance(targetEdge.midPoint, edge.midPoint);
+                if (edge == targetEdge) continue; // Skip self-comparison
+                Vector3 direction = (targetEdge.pivotPoint - edge.pivotPoint).normalized;
+                float distance = Vector3.Distance(targetEdge.pivotPoint, edge.pivotPoint);
 
-                if (!Physics.Raycast(edge.midPoint, direction, distance)) // no collision detected
+                if (!Physics.Raycast(edge.pivotPoint, direction, distance) && !Physics.Raycast(targetEdge.pivotPoint, -direction, distance)) // no collisions detected both ways 
                 {
-                    Transform linkObject = Instantiate(linkPrefab.transform, edge.midPoint, Quaternion.LookRotation(direction));
+                    Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.green, 5.0f); // Draw green line
+                    
+                    Transform linkObject = Instantiate(linkPrefab.transform, edge.midPoint, Quaternion.identity); // prev: Quaternion.LookRotation(direction)
                     var link = linkObject.GetComponent<NavMeshLink>();
-                    link.endPoint = linkObject.transform.InverseTransformPoint(targetEdge.midPoint); // transform global Vector3 targetEdge.midPoint into local relative to linkObject
+
+                    Vector3 globalEndPoint = targetEdge.midPoint;
+                    Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
+
+                    //link.endPoint = linkObject.transform.InverseTransformPoint(targetEdge.midPoint); // transform global Vector3 targetEdge.midPoint into local relative to linkObject
+                    link.endPoint = localEndPoint;  //(targetEdge.pivotPoint - edge.pivotPoint).normalized * Vector3.Distance(targetEdge.pivotPoint, edge.pivotPoint);
                     link.UpdateLink();
-                    linkObject.transform.SetParent(linkGroup);
+                    linkObject.transform.SetParent(allLinksGroup);
+
+
+
+
                 }
-                
+                else
+                {
+                    Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.red, 5.0f); // Draw red line
+                }
+
+                // NEW This is working! Adjustment needed: prevent links from connecting on wide angles from edge normal. Could also implement edge normal as an Edge variable and maybe make it 3d so then later I could play with the steapness of edges.
+
             }
         } 
     }
@@ -141,6 +167,37 @@ public class NavMeshLinksGenerator : MonoBehaviour
             Vector3 end = edge.end;
 
             Debug.DrawLine(start, end, Color.red);
+        }
+    }
+
+    public void ClearLinksAndEdges()
+    {
+        foreach (Transform child in allLinksGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        edges.Clear();
+    }
+}
+
+[CustomEditor(typeof(NavMeshLinksGenerator))]
+public class EdgeManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        NavMeshLinksGenerator navMeshLinks = (NavMeshLinksGenerator)target;
+
+        if (GUILayout.Button("Clear Links and Edges"))
+        {
+            navMeshLinks.ClearLinksAndEdges();
+        }
+
+        if (GUILayout.Button("Create Links"))
+        {
+            navMeshLinks.CreateLinks();
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4217719561587223760}
   - component: {fileID: 3165013659886068995}
   - component: {fileID: 7131568045838590521}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4112616155110510477}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CornerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
