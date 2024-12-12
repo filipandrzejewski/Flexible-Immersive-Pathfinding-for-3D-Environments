@@ -24,7 +24,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
         FindEdges();
         allLinksGroup = new GameObject("AllLinksGroup").transform;
         GetCurrentNavMeshSettings();
-        CreateLinks();
+        //CreateLinks();
 
         navMeshSurface.BuildNavMesh();
 
@@ -32,15 +32,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            ClearLinksAndEdges();
-        }
 
-        if (Input.GetKey(KeyCode.Return))
-        {
-            CreateLinks();
-        }
     }
 
     private void GetCurrentNavMeshSettings()
@@ -62,9 +54,9 @@ public class NavMeshLinksGenerator : MonoBehaviour
         {
             // the process works based on triangles (even though the visual mesh may not) which is why the pair function is called 3 times)
             // If a triangle has its edge repeated in another triangle the connection should be deleted as it is not actually the Edge of the solid
-            PairToEdge(i, i + 1);
-            PairToEdge(i + 1, i + 2);
-            PairToEdge(i + 2, i);
+            PairToEdge(i, i + 1, i + 2);
+            PairToEdge(i + 1, i + 2, i);
+            PairToEdge(i + 2, i, i + 1);
         }
 
 
@@ -72,7 +64,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
         {
             if (edge.hasPivotPoint)
             {
-                Instantiate(debugPivotPointPrefab, edge.pivotPoint, Quaternion.identity);
+                Instantiate(debugPivotPointPrefab, edge.falloffPivotPoint, Quaternion.identity);
             }
             else
             {
@@ -84,17 +76,23 @@ public class NavMeshLinksGenerator : MonoBehaviour
         edges.RemoveAll(edge => !edge.hasPivotPoint);
     }
 
-    private void PairToEdge(int n1, int n2)     
+    private void PairToEdge(int n1, int n2, int n3) //N1 and N2 will be used for calculating the edge, N3 will be used to calculate the norlmal of the plane that the edge is connected to  
     {
         Vector3 point1 = vertices[pairIndices[n1]];
         Vector3 point2 = vertices[pairIndices[n2]];
-        
+
         if (Vector3.Distance(point1, point2) < minEdgeLength)
         {
             return; // (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
         }
 
-        Edge newEdge = new Edge(point1, point2);
+        Vector3 point3 = vertices[pairIndices[n3]];
+        Vector3 surfaceVector = point3 - point1;
+
+        Vector3 surfaceNormal = Vector3.Cross(point1 - point2, surfaceVector).normalized;
+
+
+        Edge newEdge = new Edge(point1, point2, surfaceNormal);
 
         //remove duplicate connection as they are not edges
         foreach (Edge edge in edges)
@@ -119,11 +117,12 @@ public class NavMeshLinksGenerator : MonoBehaviour
             foreach (Edge targetEdge in edges)
             {
                 if (edge == targetEdge) continue; // Skip self-comparison
-                Vector3 direction = (targetEdge.pivotPoint - edge.pivotPoint).normalized;
-                float distance = Vector3.Distance(targetEdge.pivotPoint, edge.pivotPoint);
+                Vector3 direction = (targetEdge.falloffPivotPoint - edge.falloffPivotPoint).normalized;
+                float distance = Vector3.Distance(targetEdge.falloffPivotPoint, edge.falloffPivotPoint);
 
-                if (!Physics.Raycast(edge.pivotPoint, direction, distance) && !Physics.Raycast(targetEdge.pivotPoint, -direction, distance)) // no collisions detected both ways 
+                if (!Physics.Raycast(edge.falloffPivotPoint, direction, distance) && !Physics.Raycast(targetEdge.falloffPivotPoint, -direction, distance)) // no collisions detected both ways 
                 {
+                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
                     Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.green, 5.0f); // Draw green line
                     
                     Transform linkObject = Instantiate(linkPrefab.transform, edge.midPoint, Quaternion.identity); // prev: Quaternion.LookRotation(direction)
@@ -132,8 +131,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
                     Vector3 globalEndPoint = targetEdge.midPoint;
                     Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
 
-                    //link.endPoint = linkObject.transform.InverseTransformPoint(targetEdge.midPoint); // transform global Vector3 targetEdge.midPoint into local relative to linkObject
-                    link.endPoint = localEndPoint;  //(targetEdge.pivotPoint - edge.pivotPoint).normalized * Vector3.Distance(targetEdge.pivotPoint, edge.pivotPoint);
+                    link.endPoint = localEndPoint;
                     link.UpdateLink();
                     linkObject.transform.SetParent(allLinksGroup);
 
@@ -143,6 +141,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 }
                 else
                 {
+                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
                     Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.red, 5.0f); // Draw red line
                 }
 
@@ -159,15 +158,27 @@ public class NavMeshLinksGenerator : MonoBehaviour
     // Or maybe create the path myself giving character goals to rach along the way?
     // Is it even possible to create path manually like that?
 
-    void HighlightEdges(List<Edge> edges)
+    void HighlightEdges()
     {
         foreach (var edge in edges)
         {
             Vector3 start = edge.start;
             Vector3 end = edge.end;
 
-            Debug.DrawLine(start, end, Color.red);
+            Debug.DrawLine(start, end, Color.red, 5f);
         }
+    }
+
+    public void HighlightEdgeDirections()
+    {
+        foreach (var edge in edges)
+        {
+            Vector3 start = edge.midPoint;
+            Vector3 end = edge.midPoint + edge.falloffDirection * 2;
+
+            Debug.DrawLine(start, end, Color.blue, 5f);
+        }
+
     }
 
     public void ClearLinksAndEdges()
@@ -198,6 +209,11 @@ public class EdgeManagerEditor : Editor
         if (GUILayout.Button("Create Links"))
         {
             navMeshLinks.CreateLinks();
+        }
+
+        if (GUILayout.Button("Highlight Directions"))
+        {
+            navMeshLinks.HighlightEdgeDirections();
         }
     }
 }

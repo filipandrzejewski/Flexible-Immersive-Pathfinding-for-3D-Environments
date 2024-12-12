@@ -326,7 +326,7 @@ namespace eDmitriyAssets.NavmeshLinksGenerator
             Vector3 val1 = currMesh.vertices[currMesh.triangles[n1]];
             Vector3 val2 = currMesh.vertices[currMesh.triangles[n2]];
 
-            Edge newEdge = new Edge(val1, val2);
+            //Edge newEdge = new Edge(val1, val2);
 
             //remove duplicate edges
             foreach (Edge edge in edges)
@@ -341,7 +341,7 @@ namespace eDmitriyAssets.NavmeshLinksGenerator
                 }
             }
 
-            edges.Add(newEdge);
+            //edges.Add(newEdge);
         }
 
         #endregion
