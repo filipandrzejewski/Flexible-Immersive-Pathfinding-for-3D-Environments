@@ -64,7 +64,11 @@ public class NavMeshLinksGenerator : MonoBehaviour
         {
             if (edge.hasPivotPoint)
             {
-                Instantiate(debugPivotPointPrefab, edge.falloffPivotPoint, Quaternion.identity);
+                foreach (Vector3 falloffPoint in edge.falloffPoint)
+                {
+                    Instantiate(debugPivotPointPrefab, falloffPoint, Quaternion.identity);
+                }
+                
             }
             else
             {
@@ -116,39 +120,70 @@ public class NavMeshLinksGenerator : MonoBehaviour
         {
             foreach (Edge targetEdge in edges)
             {
-                if (edge == targetEdge) continue; // Skip self-comparison
-                Vector3 direction = (targetEdge.falloffPivotPoint - edge.falloffPivotPoint).normalized;
-                float distance = Vector3.Distance(targetEdge.falloffPivotPoint, edge.falloffPivotPoint);
+                if (edge == targetEdge) { continue; }
 
-                if (!Physics.Raycast(edge.falloffPivotPoint, direction, distance) && !Physics.Raycast(targetEdge.falloffPivotPoint, -direction, distance)) // no collisions detected both ways 
+                int startPointIndex = 0;
+                int endPointIndex = 0;
+
+                if (ValidConnectionExists(edge, targetEdge, out startPointIndex, out endPointIndex))
                 {
-                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
-                    Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.green, 5.0f); // Draw green line
-                    
-                    Transform linkObject = Instantiate(linkPrefab.transform, edge.midPoint, Quaternion.identity); // prev: Quaternion.LookRotation(direction)
+                    Transform linkObject = Instantiate(linkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity); // prev: Quaternion.LookRotation(direction) apparently rotation of link does not matter at all?
                     var link = linkObject.GetComponent<NavMeshLink>();
 
-                    Vector3 globalEndPoint = targetEdge.midPoint;
+                    Vector3 startPoint = edge.connectionPoint[startPointIndex];
+
+                    Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
                     Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
 
                     link.endPoint = localEndPoint;
                     link.UpdateLink();
                     linkObject.transform.SetParent(allLinksGroup);
-
-
-
-
-                }
-                else
-                {
-                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
-                    Debug.DrawLine(edge.midPoint, targetEdge.midPoint, Color.red, 5.0f); // Draw red line
                 }
 
                 // NEW This is working! Adjustment needed: prevent links from connecting on wide angles from edge normal. Could also implement edge normal as an Edge variable and maybe make it 3d so then later I could play with the steapness of edges.
 
             }
         } 
+    }
+
+    public bool ValidConnectionExists(Edge edge, Edge targetEdge, out int beginIndex, out int endIndex)
+    {
+        for (int i = 0; i < edge.falloffPoint.Count; i ++)
+        {
+            for (int j = 0; j < targetEdge.falloffPoint.Count; j++)
+            {
+                Vector3 direction = (targetEdge.falloffPoint[j] - edge.falloffPoint[i]).normalized;
+
+                if (Vector3.Angle(direction, edge.falloffDirection) > 65 &
+                    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > 65) { continue; } //skip sharp connections with selected edge (both regarding to its direction and flattened direction in regards to the floor)
+
+                if (Vector3.Angle(-direction, targetEdge.falloffDirection) > 65 &
+                    Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > 65) { continue; } //skip same sharp connections with target edge 
+
+                float distance = Vector3.Distance(targetEdge.falloffPoint[j], edge.falloffPoint[i]);
+
+
+                if (!Physics.Raycast(edge.falloffPoint[i], direction, distance) && !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
+                {
+                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
+                    Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.green, 5.0f);
+                    beginIndex = i;
+                    endIndex = j;
+
+                    return true;
+                }
+                else
+                {
+                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
+                    Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.red, 5.0f);
+                }
+
+            }
+        }
+        beginIndex = 0;
+        endIndex = 0;
+        return false;
+        
     }
 
 
@@ -160,7 +195,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     void HighlightEdges()
     {
-        foreach (var edge in edges)
+        foreach (Edge edge in edges)
         {
             Vector3 start = edge.start;
             Vector3 end = edge.end;
@@ -171,14 +206,15 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     public void HighlightEdgeDirections()
     {
-        foreach (var edge in edges)
+        foreach (Edge edge in edges)
         {
-            Vector3 start = edge.midPoint;
-            Vector3 end = edge.midPoint + edge.falloffDirection * 2;
-
-            Debug.DrawLine(start, end, Color.blue, 5f);
+            foreach (Vector3 connectionPoint in edge.connectionPoint)
+            {
+                Vector3 start = connectionPoint;
+                Vector3 end = connectionPoint + edge.falloffDirection * 2;
+                Debug.DrawLine(start, end, Color.blue, 5f);
+            }
         }
-
     }
 
     public void ClearLinksAndEdges()
