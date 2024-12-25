@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86faf76994c09414fbbeffd49f87ea17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxJumpHeight: 2
   nvAgent: {fileID: 137590945}
   mainCamera: {fileID: 888393516}
 --- !u!195 &137590945
@@ -270,7 +271,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137590943}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
+  m_AgentTypeID: 0
   m_Radius: 0.2
   m_Speed: 6
   m_Acceleration: 8
@@ -946,7 +947,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168797516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 661f6de622914c847aaa941a7d8c7122, type: 3}
   m_Name: 
@@ -1177,6 +1178,7 @@ MonoBehaviour:
   linkPrefab: {fileID: 7465725375758845222, guid: 129e36db164f2f346a8fc964753abf21, type: 3}
   debugPivotPointPrefab: {fileID: 43397889945966784, guid: 749eecfec2a70884daf6cbc78e5335ad, type: 3}
   navMeshSurface: {fileID: 1554190923}
+  agent: {fileID: 0}
   maxLinkDistance: 16
   shortLinkDistance: 2
   minEdgeLength: 0.2
@@ -1288,7 +1290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1700182744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1301,14 +1303,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: -1372625422
-  m_StartPoint: {x: 0.24, y: 0.01, z: -1.06}
-  m_EndPoint: {x: 0, y: 0.14, z: 0.58}
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0.24, y: -0.4, z: -1.06}
+  m_EndPoint: {x: 0, y: 0.03, z: 2.5}
   m_Width: 1.04
   m_CostModifier: -1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
-  m_Area: 0
+  m_Area: 3
 --- !u!4 &1700182745
 Transform:
   m_ObjectHideFlags: 0
@@ -1318,8 +1320,59 @@ Transform:
   m_GameObject: {fileID: 1700182743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9496405, z: 0, w: -0.31334153}
-  m_LocalPosition: {x: -16.559, y: -0.85748, z: -0.87459}
+  m_LocalPosition: {x: -18.461, y: -1.252, z: 0.534}
   m_LocalScale: {x: 1.5922, y: 1.5922, z: 1.5922}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1721792680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721792682}
+  - component: {fileID: 1721792681}
+  m_Layer: 0
+  m_Name: NavLinkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1721792681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721792680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0cac3f2d7718540816a06f847490aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navLinks:
+  - start: {x: 0.24, y: -0.4, z: -1.06}
+    end: {x: 0, y: 0.03, z: 2.5}
+    length: 3.5938976
+    angle: 6.8717537
+    ogCostModifier: -1
+    linkComponent: {fileID: 1700182744}
+--- !u!4 &1721792682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721792680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 63.31713, y: -73.972755, z: -22.57605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1659,3 +1712,4 @@ SceneRoots:
   - {fileID: 1115184532}
   - {fileID: 1017764563}
   - {fileID: 1168797521}
+  - {fileID: 1721792682}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterMovement
 {
     public NavMeshAgent nvAgent;
     public Camera mainCamera;
@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
             Ray reycastClick = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(reycastClick, out var hitInfo))
             {
-                nvAgent.SetDestination(hitInfo.point);
+                NavLinkManager.Instance.RequestPath(this, hitInfo.point);
+                //nvAgent.SetDestination(hitInfo.point);
             }
         }
         

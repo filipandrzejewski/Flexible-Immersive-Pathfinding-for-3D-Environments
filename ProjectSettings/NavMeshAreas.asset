@@ -11,8 +11,8 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: Void
-    cost: 99
+  - name: High Jump
+    cost: 3
   - name: 
     cost: 1
   - name: 

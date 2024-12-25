@@ -9,6 +9,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
     public Transform linkPrefab;
     public GameObject debugPivotPointPrefab;
     public NavMeshSurface navMeshSurface;
+    public NavMeshAgent agent;
 
     public float maxLinkDistance = 16;
     public float shortLinkDistance = 2;
@@ -131,18 +132,17 @@ public class NavMeshLinksGenerator : MonoBehaviour
                     Transform linkObject = Instantiate(linkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity); // prev: Quaternion.LookRotation(direction) apparently rotation of link does not matter at all?
                     var link = linkObject.GetComponent<NavMeshLink>();
 
-                    Vector3 startPoint = edge.connectionPoint[startPointIndex];
+                    
 
                     Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
                     Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
+
+                    NavLinkManager.Instance.navLinks.Add(new LinkData(edge.connectionPoint[startPointIndex], globalEndPoint, link));
 
                     link.endPoint = localEndPoint;
                     link.UpdateLink();
                     linkObject.transform.SetParent(allLinksGroup);
                 }
-
-                // NEW This is working! Adjustment needed: prevent links from connecting on wide angles from edge normal. Could also implement edge normal as an Edge variable and maybe make it 3d so then later I could play with the steapness of edges.
-
             }
         } 
     }
