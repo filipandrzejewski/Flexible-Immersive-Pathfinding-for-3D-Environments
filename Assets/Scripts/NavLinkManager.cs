@@ -33,7 +33,8 @@ public class NavLinkManager : MonoBehaviour
     }
 
 
-    /// Add a navigation request for an agent.
+    /// Add a navigation request for an 
+    /// .
     public void RequestPath(CharacterMovement character, Vector3 destination, Action<bool> onPathCalculated = null)
     {
         NavRequest newRequest = new NavRequest(character, destination, onPathCalculated);
@@ -153,6 +154,11 @@ public class NavLinkManager : MonoBehaviour
         #endif
     }
 
+    public void DeleteLinks()
+    {
+        navLinks.Clear();
+    }
+
     public List<LinkData> GetLinkDataList()
     {
         return navLinks;
@@ -173,6 +179,11 @@ public class NavLinkManagerEditor : Editor
         {
             manager.UpdateLinks();
             Debug.Log("NavMesh Links have been updated.");
+        }
+        if (GUILayout.Button("Delete Links"))
+        {
+            manager.DeleteLinks();
+            Debug.Log("NavMesh Links have been deleted.");
         }
     }
 }

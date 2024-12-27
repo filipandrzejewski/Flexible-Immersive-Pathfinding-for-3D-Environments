@@ -1176,12 +1176,859 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkPrefab: {fileID: 7465725375758845222, guid: 129e36db164f2f346a8fc964753abf21, type: 3}
-  debugPivotPointPrefab: {fileID: 43397889945966784, guid: 749eecfec2a70884daf6cbc78e5335ad, type: 3}
   navMeshSurface: {fileID: 1554190923}
-  agent: {fileID: 0}
+  navLinkManager: {fileID: 0}
   maxLinkDistance: 16
   shortLinkDistance: 2
   minEdgeLength: 0.2
+  generatedLinksGroup: {fileID: 0}
+  edges:
+  - start: {x: -19.159286, y: -1.2510681, z: -7.4659996}
+    end: {x: -20.092619, y: -1.2510681, z: -7.4659996}
+    length: 0.93333244
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -19.625954, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -19.625954, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -7.4659996}
+    end: {x: -20.092619, y: -1.2510681, z: -6.0659995}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -6.766}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -6.766}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: -1.2510681, z: -7.4659996}
+    end: {x: -19.159286, y: -1.2510681, z: -7.4659996}
+    length: 4.2666664
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -17.025953, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -17.025953, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -6.0659995}
+    end: {x: -13.825953, y: -1.2510681, z: -7.4659996}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.825953, y: -1.2510681, z: -6.766}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.125953, y: -1.2510681, z: -6.766}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -7.4659996}
+    end: {x: -14.892619, y: -1.2510681, z: -7.4659996}
+    length: 1.0666666
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -14.359285, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -14.359285, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.0926194, y: -1.6510677, z: -10.266}
+    end: {x: -4.559286, y: -1.6510677, z: -10.266}
+    length: 2.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -10.266}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -10.966}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -10.266}
+    end: {x: -4.559286, y: -1.6510677, z: -6.0659995}
+    length: 4.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -4.559286, y: -1.6510677, z: -8.165999}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -5.259286, y: -1.6510677, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+    end: {x: 1.1073813, y: -1.6510677, z: -10.266}
+    length: 4.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: 1.1073813, y: -1.6510677, z: -8.165999}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 1.8073814, y: -1.6510677, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -10.266}
+    end: {x: -2.092619, y: -1.6510677, z: -10.266}
+    length: 3.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -10.266}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -10.966}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -6.0659995}
+    end: {x: -20.092619, y: -1.2510681, z: -1.7993326}
+    length: 4.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -3.932666}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -3.932666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: 1.6155987, z: -4.132666}
+    end: {x: -16.225952, y: 1.6155987, z: -4.132666}
+    length: 1.3333321
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -15.559286, y: 1.6155987, z: -4.132666}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -15.559286, y: 1.6155987, z: -4.832666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.225952, y: 1.6155987, z: -4.132666}
+    end: {x: -16.225952, y: 1.6155987, z: -1.8659992}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.225952, y: 1.6155987, z: -2.9993327}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -16.925953, y: 1.6155987, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.225952, y: 1.6155987, z: -1.8659992}
+    end: {x: -14.89262, y: 1.6155987, z: -1.8659992}
+    length: 1.3333321
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -15.559286, y: 1.6155987, z: -1.8659992}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -15.559286, y: 1.6155987, z: -1.1659992}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -5.2659993}
+    end: {x: -13.825953, y: -1.2510681, z: -6.0659995}
+    length: 0.8000002
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.825953, y: -1.2510681, z: -5.6659994}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.125953, y: -1.2510681, z: -5.6659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.759286, y: -1.2510681, z: -1.8659992}
+    end: {x: -13.759286, y: -1.2510681, z: -4.132666}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.759286, y: -1.2510681, z: -2.9993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.059286, y: -1.2510681, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: 1.6155987, z: -1.8659992}
+    end: {x: -13.559286, y: 1.6155987, z: -1.8659992}
+    length: 1.333333
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -14.225952, y: 1.6155987, z: -1.8659992}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -14.225952, y: 1.6155987, z: -1.1659992}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.559286, y: 1.6155987, z: -1.8659992}
+    end: {x: -13.559286, y: 1.6155987, z: -4.132666}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.559286, y: 1.6155987, z: -2.9993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.859286, y: 1.6155987, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.559286, y: 1.6155987, z: -4.132666}
+    end: {x: -14.892619, y: 1.6155987, z: -4.132666}
+    length: 1.333333
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -14.225952, y: 1.6155987, z: -4.132666}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -14.225952, y: 1.6155987, z: -4.832666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -6.0659995}
+    end: {x: -4.559286, y: -1.6510677, z: -3.332666}
+    length: 2.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -4.559286, y: -1.6510677, z: -4.6993327}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -5.259286, y: -1.6510677, z: -4.6993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -3.332666}
+    end: {x: -2.0926194, y: -1.6510677, z: -3.332666}
+    length: 2.4666667
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -3.332666}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -2.6326659}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.0926194, y: 3.0155983, z: -3.2659993}
+    end: {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -2.7926195, y: 3.0155983, z: -3.2659993}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -2.7926195, y: 3.0155983, z: -3.9659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+    end: {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+    length: 1.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.4926195, y: 3.0155983, z: -2.532666}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -4.1926193, y: 3.0155983, z: -2.532666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.092619, y: -1.6510677, z: -3.332666}
+    end: {x: 1.1073813, y: -1.6510677, z: -3.332666}
+    length: 3.2000003
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -3.332666}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -2.6326659}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -3.332666}
+    end: {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+    length: 2.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: 1.1073813, y: -1.6510677, z: -4.6993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 1.8073814, y: -1.6510677, z: -4.6993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+    end: {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+    length: 1.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.0259521, y: 3.0155983, z: -2.532666}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 0.6740479, y: 3.0155983, z: -2.532666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+    end: {x: -2.092619, y: 3.0155983, z: -3.2659993}
+    length: 2.0666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -1.0592855, y: 3.0155983, z: -3.2659993}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -1.0592855, y: 3.0155983, z: -3.9659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -1.7993326}
+    end: {x: -20.092619, y: -1.2510681, z: -1.065999}
+    length: 0.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -1.4326658}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -1.4326658}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -1.065999}
+    end: {x: -19.159286, y: -1.2510681, z: -1.065999}
+    length: 0.93333244
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -19.625954, y: -1.2510681, z: -1.065999}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -19.625954, y: -1.2510681, z: -0.36599904}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -19.159286, y: -1.2510681, z: -1.065999}
+    end: {x: -17.29262, y: -1.2510681, z: -1.065999}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -18.225952, y: -1.2510681, z: -1.065999}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -18.225952, y: -1.2510681, z: -0.36599904}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: -0.3510666, z: 0.86733437}
+    end: {x: -18.559286, y: -1.9510689, z: 0.86733437}
+    length: 4.000556
+    edgeSurfaceNormal: {x: 0.39994496, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -16.725952, y: -1.1510677, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -16.725952, y: -1.1510677, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 0.86733437}
+    end: {x: -18.559286, y: -1.9510689, z: 2.4673347}
+    length: 1.6000004
+    edgeSurfaceNormal: {x: 0.39994496, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -18.559286, y: -1.9510689, z: 1.6673346}
+    falloffDirection: {x: -0.91653913, y: -0.39994496, z: -0}
+    falloffPoint:
+    - {x: -19.200863, y: -2.2310305, z: 1.6673346}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: 8.4156, z: 1.5340004}
+    end: {x: -16.559286, y: 8.4156, z: 1.5340004}
+    length: 1.666666
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -15.725953, y: 8.4156, z: 1.5340004}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -15.725953, y: 8.4156, z: 0.8340004}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 1.5340004}
+    end: {x: -16.559286, y: 8.4156, z: 2.4673347}
+    length: 0.93333435
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.559286, y: 8.4156, z: 2.0006676}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -17.259287, y: 8.4156, z: 2.0006676}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -10.625952, y: 1.4822655, z: 0.86733437}
+    end: {x: -14.892619, y: -0.3510666, z: 0.86733437}
+    length: 4.643873
+    edgeSurfaceNormal: {x: 0.39478514, y: -0.9187735, z: 0}
+    connectionPoint:
+    - {x: -12.759285, y: 0.56559944, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -12.759285, y: 0.56559944, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 2.4673347}
+    end: {x: -13.025952, y: 8.4156, z: 1.5340004}
+    length: 0.93333435
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.025952, y: 8.4156, z: 2.0006676}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.325953, y: 8.4156, z: 2.0006676}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 1.5340004}
+    end: {x: -14.892619, y: 8.4156, z: 1.5340004}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.959286, y: 8.4156, z: 1.5340004}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -13.959286, y: 8.4156, z: 0.8340004}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 2.4673347}
+    end: {x: -7.359286, y: 2.882265, z: 0.86733437}
+    length: 1.6000004
+    edgeSurfaceNormal: {x: 0.39391917, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -7.359286, y: 2.882265, z: 1.6673346}
+    falloffDirection: {x: 0.91914505, y: 0.39391917, z: -0}
+    falloffPoint:
+    - {x: -6.715884, y: 3.1580086, z: 1.6673346}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 0.86733437}
+    end: {x: -10.625953, y: 1.4822655, z: 0.86733437}
+    length: 3.5540276
+    edgeSurfaceNormal: {x: 0.39391917, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+    end: {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+    length: 2.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.4926195, y: 3.0155983, z: -0.36599922}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -4.1926193, y: 3.0155983, z: -0.36599922}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+    end: {x: -2.0926194, y: 3.0155983, z: 1.0673342}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -2.7926195, y: 3.0155983, z: 1.0673342}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -2.7926195, y: 3.0155983, z: 1.7673342}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.092619, y: 3.0155983, z: 1.0673342}
+    end: {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+    length: 2.0666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -1.0592855, y: 3.0155983, z: 1.0673342}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -1.0592855, y: 3.0155983, z: 1.7673342}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+    end: {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+    length: 2.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.0259521, y: 3.0155983, z: -0.36599922}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 0.6740479, y: 3.0155983, z: -0.36599922}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 2.4673347}
+    end: {x: -18.559286, y: -1.9510689, z: 4.400668}
+    length: 1.9333334
+    edgeSurfaceNormal: {x: 0.399945, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -18.559286, y: -1.9510689, z: 3.4340014}
+    falloffDirection: {x: -0.91653913, y: -0.399945, z: -0}
+    falloffPoint:
+    - {x: -19.200863, y: -2.2310305, z: 3.4340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 4.400668}
+    end: {x: -14.89262, y: -0.3510666, z: 4.400668}
+    length: 4.000556
+    edgeSurfaceNormal: {x: 0.399945, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -16.725952, y: -1.1510677, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -16.725952, y: -1.1510677, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 2.4673347}
+    end: {x: -16.559286, y: 8.4156, z: 5.600668}
+    length: 3.1333332
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.559286, y: 8.4156, z: 4.0340014}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -17.259287, y: 8.4156, z: 4.0340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 5.600668}
+    end: {x: -14.89262, y: 8.4156, z: 5.600668}
+    length: 1.666666
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -15.725953, y: 8.4156, z: 5.600668}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -15.725953, y: 8.4156, z: 6.300668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: -0.3510666, z: 4.400668}
+    end: {x: -10.625952, y: 1.4822655, z: 4.400668}
+    length: 4.643873
+    edgeSurfaceNormal: {x: 0.39478514, y: -0.9187735, z: 0}
+    connectionPoint:
+    - {x: -12.759285, y: 0.56559944, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -12.759285, y: 0.56559944, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: 8.4156, z: 5.600668}
+    end: {x: -13.025952, y: 8.4156, z: 5.600668}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -13.959286, y: 8.4156, z: 5.600668}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -13.959286, y: 8.4156, z: 6.300668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 5.600668}
+    end: {x: -13.025952, y: 8.4156, z: 2.4673347}
+    length: 3.1333332
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.025952, y: 8.4156, z: 4.0340014}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.325953, y: 8.4156, z: 4.0340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -10.625953, y: 1.4822655, z: 4.400668}
+    end: {x: -7.359286, y: 2.882265, z: 4.400668}
+    length: 3.5540276
+    edgeSurfaceNormal: {x: 0.3939192, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 4.400668}
+    end: {x: -7.359286, y: 2.882265, z: 2.4673347}
+    length: 1.9333334
+    edgeSurfaceNormal: {x: 0.3939192, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -7.359286, y: 2.882265, z: 3.4340014}
+    falloffDirection: {x: 0.9191451, y: 0.39391923, z: -0}
+    falloffPoint:
+    - {x: -6.715884, y: 3.1580086, z: 3.4340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  vertices:
+  - {x: -20.092619, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -7.4659996}
+  - {x: -20.092619, y: -1.2510681, z: -7.4659996}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -7.4659996}
+  - {x: -19.159286, y: -1.2510681, z: -7.4659996}
+  - {x: -14.892619, y: -1.2510681, z: -6.0659995}
+  - {x: -13.825953, y: -1.2510681, z: -6.0659995}
+  - {x: -13.825953, y: -1.2510681, z: -7.4659996}
+  - {x: -14.892619, y: -1.2510681, z: -7.4659996}
+  - {x: -4.559286, y: -1.6510677, z: -6.0659995}
+  - {x: -2.0926194, y: -1.6510677, z: -6.0659995}
+  - {x: -2.0926194, y: -1.6510677, z: -10.266}
+  - {x: -4.559286, y: -1.6510677, z: -10.266}
+  - {x: -2.092619, y: -1.6510677, z: -6.0659995}
+  - {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+  - {x: 1.1073813, y: -1.6510677, z: -10.266}
+  - {x: -2.092619, y: -1.6510677, z: -10.266}
+  - {x: -20.092619, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -20.092619, y: -1.2510681, z: -6.0659995}
+  - {x: -16.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -14.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -14.89262, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -17.359287, y: -1.2510681, z: -1.7993326}
+  - {x: -17.359287, y: -1.2510681, z: -4.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -17.225952, y: -1.2510681, z: -5.0659995}
+  - {x: -16.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -17.359287, y: -1.2510681, z: -4.7993326}
+  - {x: -17.225952, y: -1.2510681, z: -5.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -1.8659992}
+  - {x: -14.89262, y: -1.2510681, z: -4.132666}
+  - {x: -16.225952, y: -1.2510681, z: -4.132666}
+  - {x: -16.225952, y: -1.2510681, z: -1.8659992}
+  - {x: -14.89262, y: 1.6155987, z: -1.8659992}
+  - {x: -14.89262, y: 1.6155987, z: -4.132666}
+  - {x: -16.225952, y: 1.6155987, z: -4.132666}
+  - {x: -16.225952, y: 1.6155987, z: -1.8659992}
+  - {x: -14.892619, y: -1.2510681, z: -5.2659993}
+  - {x: -13.825953, y: -1.2510681, z: -5.2659993}
+  - {x: -13.825953, y: -1.2510681, z: -6.0659995}
+  - {x: -14.892619, y: -1.2510681, z: -6.0659995}
+  - {x: -14.892619, y: -1.2510681, z: -1.8659992}
+  - {x: -13.759286, y: -1.2510681, z: -1.8659992}
+  - {x: -13.759286, y: -1.2510681, z: -4.132666}
+  - {x: -14.892619, y: -1.2510681, z: -4.132666}
+  - {x: -14.892619, y: 1.6155987, z: -1.8659992}
+  - {x: -13.559286, y: 1.6155987, z: -1.8659992}
+  - {x: -13.559286, y: 1.6155987, z: -4.132666}
+  - {x: -14.892619, y: 1.6155987, z: -4.132666}
+  - {x: -2.0926194, y: -1.6510677, z: -3.332666}
+  - {x: -2.0926194, y: -1.6510677, z: -6.0659995}
+  - {x: -4.559286, y: -1.6510677, z: -6.0659995}
+  - {x: -4.559286, y: -1.6510677, z: -3.332666}
+  - {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+  - {x: -2.0926194, y: 3.0155983, z: -1.7993326}
+  - {x: -2.0926194, y: 3.0155983, z: -3.2659993}
+  - {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+  - {x: -2.092619, y: -1.6510677, z: -3.332666}
+  - {x: 1.1073813, y: -1.6510677, z: -3.332666}
+  - {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+  - {x: -2.092619, y: -1.6510677, z: -6.0659995}
+  - {x: -2.092619, y: 3.0155983, z: -1.7993326}
+  - {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+  - {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+  - {x: -2.092619, y: 3.0155983, z: -3.2659993}
+  - {x: -19.159286, y: -1.2510681, z: -1.065999}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -20.092619, y: -1.2510681, z: -1.7993326}
+  - {x: -20.092619, y: -1.2510681, z: -1.065999}
+  - {x: -19.159286, y: -1.2510681, z: -1.065999}
+  - {x: -17.29262, y: -1.2510681, z: -1.065999}
+  - {x: -17.359287, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -18.559286, y: -1.9510689, z: 2.4673347}
+  - {x: -14.89262, y: -0.3510666, z: 2.4673347}
+  - {x: -14.89262, y: -0.3510666, z: 0.86733437}
+  - {x: -18.559286, y: -1.9510689, z: 0.86733437}
+  - {x: -16.559286, y: 8.4156, z: 2.4673347}
+  - {x: -14.89262, y: 8.4156, z: 2.4673347}
+  - {x: -14.89262, y: 8.4156, z: 1.5340004}
+  - {x: -16.559286, y: 8.4156, z: 1.5340004}
+  - {x: -14.892619, y: -0.3510666, z: 2.4673347}
+  - {x: -10.625952, y: 1.4822655, z: 2.4673347}
+  - {x: -10.625952, y: 1.4822655, z: 0.86733437}
+  - {x: -14.892619, y: -0.3510666, z: 0.86733437}
+  - {x: -14.892619, y: 8.4156, z: 2.4673347}
+  - {x: -13.025952, y: 8.4156, z: 2.4673347}
+  - {x: -13.025952, y: 8.4156, z: 1.5340004}
+  - {x: -14.892619, y: 8.4156, z: 1.5340004}
+  - {x: -10.625953, y: 1.4822655, z: 2.4673347}
+  - {x: -7.359286, y: 2.882265, z: 2.4673347}
+  - {x: -7.359286, y: 2.882265, z: 0.86733437}
+  - {x: -10.625953, y: 1.4822655, z: 0.86733437}
+  - {x: -2.0926194, y: 3.0155983, z: 1.0673342}
+  - {x: -2.0926194, y: 3.0155983, z: -1.7993326}
+  - {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+  - {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+  - {x: -2.092619, y: 3.0155983, z: 1.0673342}
+  - {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+  - {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+  - {x: -2.092619, y: 3.0155983, z: -1.7993326}
+  - {x: -14.89262, y: -0.3510666, z: 4.400668}
+  - {x: -14.89262, y: -0.3510666, z: 2.4673347}
+  - {x: -18.559286, y: -1.9510689, z: 2.4673347}
+  - {x: -18.559286, y: -1.9510689, z: 4.400668}
+  - {x: -14.89262, y: 8.4156, z: 5.600668}
+  - {x: -14.89262, y: 8.4156, z: 2.4673347}
+  - {x: -16.559286, y: 8.4156, z: 2.4673347}
+  - {x: -16.559286, y: 8.4156, z: 5.600668}
+  - {x: -14.892619, y: -0.3510666, z: 4.400668}
+  - {x: -10.625952, y: 1.4822655, z: 4.400668}
+  - {x: -10.625952, y: 1.4822655, z: 2.4673347}
+  - {x: -14.892619, y: -0.3510666, z: 2.4673347}
+  - {x: -14.892619, y: 8.4156, z: 5.600668}
+  - {x: -13.025952, y: 8.4156, z: 5.600668}
+  - {x: -13.025952, y: 8.4156, z: 2.4673347}
+  - {x: -14.892619, y: 8.4156, z: 2.4673347}
+  - {x: -10.625953, y: 1.4822655, z: 4.400668}
+  - {x: -7.359286, y: 2.882265, z: 4.400668}
+  - {x: -7.359286, y: 2.882265, z: 2.4673347}
+  - {x: -10.625953, y: 1.4822655, z: 2.4673347}
+  pairIndices: 00000000010000000200000000000000020000000300000004000000050000000600000004000000060000000700000008000000090000000a000000080000000a0000000b0000000c0000000d0000000e0000000c0000000e0000000f00000010000000110000001200000010000000120000001300000014000000150000001600000014000000160000001700000018000000190000001a000000180000001a0000001b0000001c0000001d0000001e0000001c0000001e0000001f0000002000000021000000220000002300000024000000250000002600000027000000280000002600000028000000290000002a0000002b0000002c0000002a0000002c0000002d0000002e0000002f000000300000002e00000030000000310000003200000033000000340000003200000034000000350000003600000037000000380000003600000038000000390000003a0000003b0000003c0000003a0000003c0000003d0000003e0000003f000000400000003e00000040000000410000004200000043000000440000004200000044000000450000004600000047000000480000004600000048000000490000004a0000004b0000004c0000004a0000004c0000004d0000004e0000004f000000500000004e00000050000000510000005200000053000000540000005200000054000000550000005600000057000000580000005600000058000000590000005a0000005b0000005c0000005a0000005c0000005d0000005e0000005f000000600000005e00000060000000610000006200000063000000640000006200000064000000650000006600000067000000680000006600000068000000690000006a0000006b0000006c0000006a0000006c0000006d0000006e0000006f000000700000006e00000070000000710000007200000073000000740000007200000074000000750000007600000077000000780000007600000078000000790000007a0000007b0000007c0000007a0000007c0000007d0000007e0000007f000000800000007e0000008000000081000000
 --- !u!4 &1470297618
 Transform:
   m_ObjectHideFlags: 0
@@ -1249,7 +2096,7 @@ MonoBehaviour:
     m_Bits: 49
   m_UseGeometry: 0
   m_DefaultArea: 0
-  m_GenerateLinks: 1
+  m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 1
@@ -1336,6 +2183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1721792682}
   - component: {fileID: 1721792681}
+  - component: {fileID: 1721792683}
   m_Layer: 0
   m_Name: NavLinkManager
   m_TagString: Untagged
@@ -1355,13 +2203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0cac3f2d7718540816a06f847490aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navLinks:
-  - start: {x: 0.24, y: -0.4, z: -1.06}
-    end: {x: 0, y: 0.03, z: 2.5}
-    length: 3.5938976
-    angle: 6.8717537
-    ogCostModifier: -1
-    linkComponent: {fileID: 1700182744}
+  navLinks: []
 --- !u!4 &1721792682
 Transform:
   m_ObjectHideFlags: 0
@@ -1377,6 +2219,872 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721792683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721792680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db7dbd95df94474ab404c1597fdbd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkPrefab: {fileID: 7465725375758845222, guid: 129e36db164f2f346a8fc964753abf21, type: 3}
+  navMeshSurface: {fileID: 1554190923}
+  navLinkManager: {fileID: 1721792681}
+  maxLinkDistance: 16
+  shortLinkDistance: 2
+  minEdgeLength: 0.2
+  generatedLinksGroup: {fileID: 0}
+  edges:
+  - start: {x: -19.159286, y: -1.2510681, z: -7.4659996}
+    end: {x: -20.092619, y: -1.2510681, z: -7.4659996}
+    length: 0.93333244
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -19.625954, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -19.625954, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -7.4659996}
+    end: {x: -20.092619, y: -1.2510681, z: -6.0659995}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -6.766}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -6.766}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: -1.2510681, z: -7.4659996}
+    end: {x: -19.159286, y: -1.2510681, z: -7.4659996}
+    length: 4.2666664
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -17.025953, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -17.025953, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -6.0659995}
+    end: {x: -13.825953, y: -1.2510681, z: -7.4659996}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.825953, y: -1.2510681, z: -6.766}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.125953, y: -1.2510681, z: -6.766}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -7.4659996}
+    end: {x: -14.892619, y: -1.2510681, z: -7.4659996}
+    length: 1.0666666
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -14.359285, y: -1.2510681, z: -7.4659996}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -14.359285, y: -1.2510681, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.0926194, y: -1.6510677, z: -10.266}
+    end: {x: -4.559286, y: -1.6510677, z: -10.266}
+    length: 2.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -10.266}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -10.966}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -10.266}
+    end: {x: -4.559286, y: -1.6510677, z: -6.0659995}
+    length: 4.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -4.559286, y: -1.6510677, z: -8.165999}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -5.259286, y: -1.6510677, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+    end: {x: 1.1073813, y: -1.6510677, z: -10.266}
+    length: 4.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: 1.1073813, y: -1.6510677, z: -8.165999}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 1.8073814, y: -1.6510677, z: -8.165999}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -10.266}
+    end: {x: -2.092619, y: -1.6510677, z: -10.266}
+    length: 3.2000003
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -10.266}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -10.966}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -6.0659995}
+    end: {x: -20.092619, y: -1.2510681, z: -1.7993326}
+    length: 4.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -3.932666}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -3.932666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: 1.6155987, z: -4.132666}
+    end: {x: -16.225952, y: 1.6155987, z: -4.132666}
+    length: 1.3333321
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -15.559286, y: 1.6155987, z: -4.132666}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -15.559286, y: 1.6155987, z: -4.832666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.225952, y: 1.6155987, z: -4.132666}
+    end: {x: -16.225952, y: 1.6155987, z: -1.8659992}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.225952, y: 1.6155987, z: -2.9993327}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -16.925953, y: 1.6155987, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.225952, y: 1.6155987, z: -1.8659992}
+    end: {x: -14.89262, y: 1.6155987, z: -1.8659992}
+    length: 1.3333321
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -15.559286, y: 1.6155987, z: -1.8659992}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -15.559286, y: 1.6155987, z: -1.1659992}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.825953, y: -1.2510681, z: -5.2659993}
+    end: {x: -13.825953, y: -1.2510681, z: -6.0659995}
+    length: 0.8000002
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.825953, y: -1.2510681, z: -5.6659994}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.125953, y: -1.2510681, z: -5.6659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.759286, y: -1.2510681, z: -1.8659992}
+    end: {x: -13.759286, y: -1.2510681, z: -4.132666}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.759286, y: -1.2510681, z: -2.9993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -13.059286, y: -1.2510681, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: 1.6155987, z: -1.8659992}
+    end: {x: -13.559286, y: 1.6155987, z: -1.8659992}
+    length: 1.333333
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -14.225952, y: 1.6155987, z: -1.8659992}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -14.225952, y: 1.6155987, z: -1.1659992}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.559286, y: 1.6155987, z: -1.8659992}
+    end: {x: -13.559286, y: 1.6155987, z: -4.132666}
+    length: 2.266667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.559286, y: 1.6155987, z: -2.9993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.859286, y: 1.6155987, z: -2.9993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.559286, y: 1.6155987, z: -4.132666}
+    end: {x: -14.892619, y: 1.6155987, z: -4.132666}
+    length: 1.333333
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -14.225952, y: 1.6155987, z: -4.132666}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -14.225952, y: 1.6155987, z: -4.832666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -6.0659995}
+    end: {x: -4.559286, y: -1.6510677, z: -3.332666}
+    length: 2.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -4.559286, y: -1.6510677, z: -4.6993327}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -5.259286, y: -1.6510677, z: -4.6993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -4.559286, y: -1.6510677, z: -3.332666}
+    end: {x: -2.0926194, y: -1.6510677, z: -3.332666}
+    length: 2.4666667
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -3.332666}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -3.3259528, y: -1.6510677, z: -2.6326659}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.0926194, y: 3.0155983, z: -3.2659993}
+    end: {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -2.7926195, y: 3.0155983, z: -3.2659993}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -2.7926195, y: 3.0155983, z: -3.9659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+    end: {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+    length: 1.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.4926195, y: 3.0155983, z: -2.532666}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -4.1926193, y: 3.0155983, z: -2.532666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.092619, y: -1.6510677, z: -3.332666}
+    end: {x: 1.1073813, y: -1.6510677, z: -3.332666}
+    length: 3.2000003
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -3.332666}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -0.4926188, y: -1.6510677, z: -2.6326659}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: 1.1073813, y: -1.6510677, z: -3.332666}
+    end: {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+    length: 2.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: 1.1073813, y: -1.6510677, z: -4.6993327}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 1.8073814, y: -1.6510677, z: -4.6993327}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+    end: {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+    length: 1.4666667
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.0259521, y: 3.0155983, z: -2.532666}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 0.6740479, y: 3.0155983, z: -2.532666}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+    end: {x: -2.092619, y: 3.0155983, z: -3.2659993}
+    length: 2.0666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -1.0592855, y: 3.0155983, z: -3.2659993}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -1.0592855, y: 3.0155983, z: -3.9659994}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -1.7993326}
+    end: {x: -20.092619, y: -1.2510681, z: -1.065999}
+    length: 0.7333336
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -20.092619, y: -1.2510681, z: -1.4326658}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -20.79262, y: -1.2510681, z: -1.4326658}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -20.092619, y: -1.2510681, z: -1.065999}
+    end: {x: -19.159286, y: -1.2510681, z: -1.065999}
+    length: 0.93333244
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -19.625954, y: -1.2510681, z: -1.065999}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -19.625954, y: -1.2510681, z: -0.36599904}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -19.159286, y: -1.2510681, z: -1.065999}
+    end: {x: -17.29262, y: -1.2510681, z: -1.065999}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -18.225952, y: -1.2510681, z: -1.065999}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -18.225952, y: -1.2510681, z: -0.36599904}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: -0.3510666, z: 0.86733437}
+    end: {x: -18.559286, y: -1.9510689, z: 0.86733437}
+    length: 4.000556
+    edgeSurfaceNormal: {x: 0.39994496, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -16.725952, y: -1.1510677, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -16.725952, y: -1.1510677, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 0.86733437}
+    end: {x: -18.559286, y: -1.9510689, z: 2.4673347}
+    length: 1.6000004
+    edgeSurfaceNormal: {x: 0.39994496, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -18.559286, y: -1.9510689, z: 1.6673346}
+    falloffDirection: {x: -0.91653913, y: -0.39994496, z: -0}
+    falloffPoint:
+    - {x: -19.200863, y: -2.2310305, z: 1.6673346}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.89262, y: 8.4156, z: 1.5340004}
+    end: {x: -16.559286, y: 8.4156, z: 1.5340004}
+    length: 1.666666
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -15.725953, y: 8.4156, z: 1.5340004}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -15.725953, y: 8.4156, z: 0.8340004}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 1.5340004}
+    end: {x: -16.559286, y: 8.4156, z: 2.4673347}
+    length: 0.93333435
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.559286, y: 8.4156, z: 2.0006676}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -17.259287, y: 8.4156, z: 2.0006676}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -10.625952, y: 1.4822655, z: 0.86733437}
+    end: {x: -14.892619, y: -0.3510666, z: 0.86733437}
+    length: 4.643873
+    edgeSurfaceNormal: {x: 0.39478514, y: -0.9187735, z: 0}
+    connectionPoint:
+    - {x: -12.759285, y: 0.56559944, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -12.759285, y: 0.56559944, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 2.4673347}
+    end: {x: -13.025952, y: 8.4156, z: 1.5340004}
+    length: 0.93333435
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.025952, y: 8.4156, z: 2.0006676}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.325953, y: 8.4156, z: 2.0006676}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 1.5340004}
+    end: {x: -14.892619, y: 8.4156, z: 1.5340004}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.959286, y: 8.4156, z: 1.5340004}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -13.959286, y: 8.4156, z: 0.8340004}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 2.4673347}
+    end: {x: -7.359286, y: 2.882265, z: 0.86733437}
+    length: 1.6000004
+    edgeSurfaceNormal: {x: 0.39391917, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -7.359286, y: 2.882265, z: 1.6673346}
+    falloffDirection: {x: 0.91914505, y: 0.39391917, z: -0}
+    falloffPoint:
+    - {x: -6.715884, y: 3.1580086, z: 1.6673346}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 0.86733437}
+    end: {x: -10.625953, y: 1.4822655, z: 0.86733437}
+    length: 3.5540276
+    edgeSurfaceNormal: {x: 0.39391917, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 0.86733437}
+    falloffDirection: {x: 0, y: 0, z: -1}
+    falloffPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 0.16733438}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+    end: {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+    length: 2.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -3.4926195, y: 3.0155983, z: -0.36599922}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -4.1926193, y: 3.0155983, z: -0.36599922}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+    end: {x: -2.0926194, y: 3.0155983, z: 1.0673342}
+    length: 1.4000001
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -2.7926195, y: 3.0155983, z: 1.0673342}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -2.7926195, y: 3.0155983, z: 1.7673342}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -2.092619, y: 3.0155983, z: 1.0673342}
+    end: {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+    length: 2.0666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -1.0592855, y: 3.0155983, z: 1.0673342}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -1.0592855, y: 3.0155983, z: 1.7673342}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+    end: {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+    length: 2.8666668
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -0.0259521, y: 3.0155983, z: -0.36599922}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: 0.6740479, y: 3.0155983, z: -0.36599922}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 2.4673347}
+    end: {x: -18.559286, y: -1.9510689, z: 4.400668}
+    length: 1.9333334
+    edgeSurfaceNormal: {x: 0.399945, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -18.559286, y: -1.9510689, z: 3.4340014}
+    falloffDirection: {x: -0.91653913, y: -0.399945, z: -0}
+    falloffPoint:
+    - {x: -19.200863, y: -2.2310305, z: 3.4340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -18.559286, y: -1.9510689, z: 4.400668}
+    end: {x: -14.89262, y: -0.3510666, z: 4.400668}
+    length: 4.000556
+    edgeSurfaceNormal: {x: 0.399945, y: -0.91653913, z: 0}
+    connectionPoint:
+    - {x: -16.725952, y: -1.1510677, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -16.725952, y: -1.1510677, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 2.4673347}
+    end: {x: -16.559286, y: 8.4156, z: 5.600668}
+    length: 3.1333332
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -16.559286, y: 8.4156, z: 4.0340014}
+    falloffDirection: {x: -1, y: -0, z: -0}
+    falloffPoint:
+    - {x: -17.259287, y: 8.4156, z: 4.0340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -16.559286, y: 8.4156, z: 5.600668}
+    end: {x: -14.89262, y: 8.4156, z: 5.600668}
+    length: 1.666666
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -15.725953, y: 8.4156, z: 5.600668}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -15.725953, y: 8.4156, z: 6.300668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: -0.3510666, z: 4.400668}
+    end: {x: -10.625952, y: 1.4822655, z: 4.400668}
+    length: 4.643873
+    edgeSurfaceNormal: {x: 0.39478514, y: -0.9187735, z: 0}
+    connectionPoint:
+    - {x: -12.759285, y: 0.56559944, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -12.759285, y: 0.56559944, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -14.892619, y: 8.4156, z: 5.600668}
+    end: {x: -13.025952, y: 8.4156, z: 5.600668}
+    length: 1.8666668
+    edgeSurfaceNormal: {x: -0, y: -1, z: -0}
+    connectionPoint:
+    - {x: -13.959286, y: 8.4156, z: 5.600668}
+    falloffDirection: {x: 0, y: -0, z: 1}
+    falloffPoint:
+    - {x: -13.959286, y: 8.4156, z: 6.300668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -13.025952, y: 8.4156, z: 5.600668}
+    end: {x: -13.025952, y: 8.4156, z: 2.4673347}
+    length: 3.1333332
+    edgeSurfaceNormal: {x: 0, y: -1, z: 0}
+    connectionPoint:
+    - {x: -13.025952, y: 8.4156, z: 4.0340014}
+    falloffDirection: {x: 1, y: 0, z: -0}
+    falloffPoint:
+    - {x: -12.325953, y: 8.4156, z: 4.0340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -10.625953, y: 1.4822655, z: 4.400668}
+    end: {x: -7.359286, y: 2.882265, z: 4.400668}
+    length: 3.5540276
+    edgeSurfaceNormal: {x: 0.3939192, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 4.400668}
+    falloffDirection: {x: 0, y: 0, z: 1}
+    falloffPoint:
+    - {x: -8.9926195, y: 2.1822653, z: 5.100668}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  - start: {x: -7.359286, y: 2.882265, z: 4.400668}
+    end: {x: -7.359286, y: 2.882265, z: 2.4673347}
+    length: 1.9333334
+    edgeSurfaceNormal: {x: 0.3939192, y: -0.91914505, z: 0}
+    connectionPoint:
+    - {x: -7.359286, y: 2.882265, z: 3.4340014}
+    falloffDirection: {x: 0.9191451, y: 0.39391923, z: -0}
+    falloffPoint:
+    - {x: -6.715884, y: 3.1580086, z: 3.4340014}
+    hasPivotPoint: 1
+    facingNormal: {x: 0, y: 0, z: 0, w: 0}
+    startUp: {x: 0, y: 0, z: 0}
+    endUp: {x: 0, y: 0, z: 0}
+    facingNormalCalculated: 0
+  vertices:
+  - {x: -20.092619, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -7.4659996}
+  - {x: -20.092619, y: -1.2510681, z: -7.4659996}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -7.4659996}
+  - {x: -19.159286, y: -1.2510681, z: -7.4659996}
+  - {x: -14.892619, y: -1.2510681, z: -6.0659995}
+  - {x: -13.825953, y: -1.2510681, z: -6.0659995}
+  - {x: -13.825953, y: -1.2510681, z: -7.4659996}
+  - {x: -14.892619, y: -1.2510681, z: -7.4659996}
+  - {x: -4.559286, y: -1.6510677, z: -6.0659995}
+  - {x: -2.0926194, y: -1.6510677, z: -6.0659995}
+  - {x: -2.0926194, y: -1.6510677, z: -10.266}
+  - {x: -4.559286, y: -1.6510677, z: -10.266}
+  - {x: -2.092619, y: -1.6510677, z: -6.0659995}
+  - {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+  - {x: 1.1073813, y: -1.6510677, z: -10.266}
+  - {x: -2.092619, y: -1.6510677, z: -10.266}
+  - {x: -20.092619, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -20.092619, y: -1.2510681, z: -6.0659995}
+  - {x: -16.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -14.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -14.89262, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -17.359287, y: -1.2510681, z: -1.7993326}
+  - {x: -17.359287, y: -1.2510681, z: -4.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -17.225952, y: -1.2510681, z: -5.0659995}
+  - {x: -16.89262, y: -1.2510681, z: -5.2659993}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -17.359287, y: -1.2510681, z: -4.7993326}
+  - {x: -17.225952, y: -1.2510681, z: -5.0659995}
+  - {x: -19.159286, y: -1.2510681, z: -6.0659995}
+  - {x: -14.89262, y: -1.2510681, z: -1.8659992}
+  - {x: -14.89262, y: -1.2510681, z: -4.132666}
+  - {x: -16.225952, y: -1.2510681, z: -4.132666}
+  - {x: -16.225952, y: -1.2510681, z: -1.8659992}
+  - {x: -14.89262, y: 1.6155987, z: -1.8659992}
+  - {x: -14.89262, y: 1.6155987, z: -4.132666}
+  - {x: -16.225952, y: 1.6155987, z: -4.132666}
+  - {x: -16.225952, y: 1.6155987, z: -1.8659992}
+  - {x: -14.892619, y: -1.2510681, z: -5.2659993}
+  - {x: -13.825953, y: -1.2510681, z: -5.2659993}
+  - {x: -13.825953, y: -1.2510681, z: -6.0659995}
+  - {x: -14.892619, y: -1.2510681, z: -6.0659995}
+  - {x: -14.892619, y: -1.2510681, z: -1.8659992}
+  - {x: -13.759286, y: -1.2510681, z: -1.8659992}
+  - {x: -13.759286, y: -1.2510681, z: -4.132666}
+  - {x: -14.892619, y: -1.2510681, z: -4.132666}
+  - {x: -14.892619, y: 1.6155987, z: -1.8659992}
+  - {x: -13.559286, y: 1.6155987, z: -1.8659992}
+  - {x: -13.559286, y: 1.6155987, z: -4.132666}
+  - {x: -14.892619, y: 1.6155987, z: -4.132666}
+  - {x: -2.0926194, y: -1.6510677, z: -3.332666}
+  - {x: -2.0926194, y: -1.6510677, z: -6.0659995}
+  - {x: -4.559286, y: -1.6510677, z: -6.0659995}
+  - {x: -4.559286, y: -1.6510677, z: -3.332666}
+  - {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+  - {x: -2.0926194, y: 3.0155983, z: -1.7993326}
+  - {x: -2.0926194, y: 3.0155983, z: -3.2659993}
+  - {x: -3.4926195, y: 3.0155983, z: -3.2659993}
+  - {x: -2.092619, y: -1.6510677, z: -3.332666}
+  - {x: 1.1073813, y: -1.6510677, z: -3.332666}
+  - {x: 1.1073813, y: -1.6510677, z: -6.0659995}
+  - {x: -2.092619, y: -1.6510677, z: -6.0659995}
+  - {x: -2.092619, y: 3.0155983, z: -1.7993326}
+  - {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+  - {x: -0.0259521, y: 3.0155983, z: -3.2659993}
+  - {x: -2.092619, y: 3.0155983, z: -3.2659993}
+  - {x: -19.159286, y: -1.2510681, z: -1.065999}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -20.092619, y: -1.2510681, z: -1.7993326}
+  - {x: -20.092619, y: -1.2510681, z: -1.065999}
+  - {x: -19.159286, y: -1.2510681, z: -1.065999}
+  - {x: -17.29262, y: -1.2510681, z: -1.065999}
+  - {x: -17.359287, y: -1.2510681, z: -1.7993326}
+  - {x: -19.159286, y: -1.2510681, z: -1.7993326}
+  - {x: -18.559286, y: -1.9510689, z: 2.4673347}
+  - {x: -14.89262, y: -0.3510666, z: 2.4673347}
+  - {x: -14.89262, y: -0.3510666, z: 0.86733437}
+  - {x: -18.559286, y: -1.9510689, z: 0.86733437}
+  - {x: -16.559286, y: 8.4156, z: 2.4673347}
+  - {x: -14.89262, y: 8.4156, z: 2.4673347}
+  - {x: -14.89262, y: 8.4156, z: 1.5340004}
+  - {x: -16.559286, y: 8.4156, z: 1.5340004}
+  - {x: -14.892619, y: -0.3510666, z: 2.4673347}
+  - {x: -10.625952, y: 1.4822655, z: 2.4673347}
+  - {x: -10.625952, y: 1.4822655, z: 0.86733437}
+  - {x: -14.892619, y: -0.3510666, z: 0.86733437}
+  - {x: -14.892619, y: 8.4156, z: 2.4673347}
+  - {x: -13.025952, y: 8.4156, z: 2.4673347}
+  - {x: -13.025952, y: 8.4156, z: 1.5340004}
+  - {x: -14.892619, y: 8.4156, z: 1.5340004}
+  - {x: -10.625953, y: 1.4822655, z: 2.4673347}
+  - {x: -7.359286, y: 2.882265, z: 2.4673347}
+  - {x: -7.359286, y: 2.882265, z: 0.86733437}
+  - {x: -10.625953, y: 1.4822655, z: 0.86733437}
+  - {x: -2.0926194, y: 3.0155983, z: 1.0673342}
+  - {x: -2.0926194, y: 3.0155983, z: -1.7993326}
+  - {x: -3.4926195, y: 3.0155983, z: -1.7993326}
+  - {x: -3.4926195, y: 3.0155983, z: 1.0673342}
+  - {x: -2.092619, y: 3.0155983, z: 1.0673342}
+  - {x: -0.0259521, y: 3.0155983, z: 1.0673342}
+  - {x: -0.0259521, y: 3.0155983, z: -1.7993326}
+  - {x: -2.092619, y: 3.0155983, z: -1.7993326}
+  - {x: -14.89262, y: -0.3510666, z: 4.400668}
+  - {x: -14.89262, y: -0.3510666, z: 2.4673347}
+  - {x: -18.559286, y: -1.9510689, z: 2.4673347}
+  - {x: -18.559286, y: -1.9510689, z: 4.400668}
+  - {x: -14.89262, y: 8.4156, z: 5.600668}
+  - {x: -14.89262, y: 8.4156, z: 2.4673347}
+  - {x: -16.559286, y: 8.4156, z: 2.4673347}
+  - {x: -16.559286, y: 8.4156, z: 5.600668}
+  - {x: -14.892619, y: -0.3510666, z: 4.400668}
+  - {x: -10.625952, y: 1.4822655, z: 4.400668}
+  - {x: -10.625952, y: 1.4822655, z: 2.4673347}
+  - {x: -14.892619, y: -0.3510666, z: 2.4673347}
+  - {x: -14.892619, y: 8.4156, z: 5.600668}
+  - {x: -13.025952, y: 8.4156, z: 5.600668}
+  - {x: -13.025952, y: 8.4156, z: 2.4673347}
+  - {x: -14.892619, y: 8.4156, z: 2.4673347}
+  - {x: -10.625953, y: 1.4822655, z: 4.400668}
+  - {x: -7.359286, y: 2.882265, z: 4.400668}
+  - {x: -7.359286, y: 2.882265, z: 2.4673347}
+  - {x: -10.625953, y: 1.4822655, z: 2.4673347}
+  pairIndices: 00000000010000000200000000000000020000000300000004000000050000000600000004000000060000000700000008000000090000000a000000080000000a0000000b0000000c0000000d0000000e0000000c0000000e0000000f00000010000000110000001200000010000000120000001300000014000000150000001600000014000000160000001700000018000000190000001a000000180000001a0000001b0000001c0000001d0000001e0000001c0000001e0000001f0000002000000021000000220000002300000024000000250000002600000027000000280000002600000028000000290000002a0000002b0000002c0000002a0000002c0000002d0000002e0000002f000000300000002e00000030000000310000003200000033000000340000003200000034000000350000003600000037000000380000003600000038000000390000003a0000003b0000003c0000003a0000003c0000003d0000003e0000003f000000400000003e00000040000000410000004200000043000000440000004200000044000000450000004600000047000000480000004600000048000000490000004a0000004b0000004c0000004a0000004c0000004d0000004e0000004f000000500000004e00000050000000510000005200000053000000540000005200000054000000550000005600000057000000580000005600000058000000590000005a0000005b0000005c0000005a0000005c0000005d0000005e0000005f000000600000005e00000060000000610000006200000063000000640000006200000064000000650000006600000067000000680000006600000068000000690000006a0000006b0000006c0000006a0000006c0000006d0000006e0000006f000000700000006e00000070000000710000007200000073000000740000007200000074000000750000007600000077000000780000007600000078000000790000007a0000007b0000007c0000007a0000007c0000007d0000007e0000007f000000800000007e0000008000000081000000
 --- !u!1 &1755146719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,8 +3416,8 @@ SceneRoots:
   - {fileID: 137590949}
   - {fileID: 1700182745}
   - {fileID: 1554190924}
-  - {fileID: 1470297618}
   - {fileID: 1115184532}
   - {fileID: 1017764563}
   - {fileID: 1168797521}
+  - {fileID: 1470297618}
   - {fileID: 1721792682}

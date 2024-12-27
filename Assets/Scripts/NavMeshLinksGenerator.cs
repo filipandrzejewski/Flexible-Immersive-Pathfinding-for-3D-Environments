@@ -6,32 +6,28 @@ using UnityEngine.AI;
 
 public class NavMeshLinksGenerator : MonoBehaviour
 {
-    public Transform linkPrefab;
-    public GameObject debugPivotPointPrefab;
-    public NavMeshSurface navMeshSurface;
-    public NavMeshAgent agent;
+    [SerializeField] public Transform linkPrefab;
+    //[SerializeField] public GameObject debugPivotPointPrefab;
+    [SerializeField] public NavMeshSurface navMeshSurface;
+    [SerializeField] [HideInInspector] private NavLinkManager navLinkManager;
 
-    public float maxLinkDistance = 16;
-    public float shortLinkDistance = 2;
+    [SerializeField] public float maxLinkDistance = 16;
+    [SerializeField] public float shortLinkDistance = 2;
+    [SerializeField] public float minEdgeLength = 0.2f; // minimal distance to classify Edge (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
 
-    private float linkCheckOffset;
-    private NavMeshBuildSettings navMeshSettings;
+    //private float linkCheckOffset;
+    [SerializeField] [HideInInspector] private NavMeshBuildSettings navMeshSettings; //assign
 
-    private Transform allLinksGroup;
-    public float minEdgeLength = 0.2f; // minimal distance to classify Edge (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
-    private List<Edge> edges = new List<Edge>();
-    private Vector3[] vertices; // every vertice of the nav mesh
-    private int[] pairIndices; // connections between vertices paired by index in the vertices table
+    [SerializeField] [HideInInspector] private Transform generatedLinksGroup;
+    [SerializeField] [HideInInspector] private List<Edge> edges = new List<Edge>();
+    [SerializeField] [HideInInspector] private Vector3[] vertices; // every vertice of the nav mesh
+    [SerializeField] [HideInInspector] private int[] pairIndices; // connections between vertices paired by index in the vertices table
 
     private void Start()
     {
-        FindEdges();
-        allLinksGroup = new GameObject("AllLinksGroup").transform;
-        GetCurrentNavMeshSettings();
-        //CreateLinks();
-
-        navMeshSurface.BuildNavMesh();
-
+        if (edges.Count == 0) { FindEdges(); }
+        if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
+        
     }
 
     private void Update()
@@ -39,10 +35,59 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     }
 
+    public void AutoAssign()
+    {
+#if UNITY_EDITOR
+        if (linkPrefab == null)
+        {
+            string linkPrefabPath = FindAssetPathByName("Link Prefab", "t:Prefab");
+            if (!string.IsNullOrEmpty(linkPrefabPath))
+            {
+                linkPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(linkPrefabPath).transform;
+            }
+            else
+            {
+                Debug.LogWarning($"Prefab with name 'Link Prefab' not found in Assets.");
+            }
+        }
+        
+        if (navMeshSurface == null)
+        {
+            GameObject[] allObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.GetComponent<NavMeshSurface>() != null)
+                {
+                    navMeshSurface = obj.GetComponent<NavMeshSurface>();
+                    break;
+                }
+            }
+        }
+
+        if (navLinkManager == null)
+        {
+
+        }
+        EditorUtility.SetDirty(this); // Save changes to the scriptable object
+#endif
+    }
+
+#if UNITY_EDITOR
+    private string FindAssetPathByName(string assetName, string filter)
+    {
+        string[] guids = AssetDatabase.FindAssets($"{assetName} {filter}");
+        if (guids.Length > 0)
+        {
+            return AssetDatabase.GUIDToAssetPath(guids[0]);
+        }
+        return null;
+    }
+#endif
+
     private void GetCurrentNavMeshSettings()
     {
         navMeshSettings = NavMesh.GetSettingsByID(navMeshSurface.agentTypeID);
-        linkCheckOffset = 0.6f * navMeshSettings.agentRadius;
+        //linkCheckOffset = 0.6f * navMeshSettings.agentRadius;
 
     }
 
@@ -115,36 +160,60 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     public void CreateLinks()
     {
+
+#if UNITY_EDITOR
+        if (edges.Count == 0) { FindEdges(); }
+        if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
+#endif
+
         Debug.Log("Creating Links");
         if (linkPrefab == null) { return; }
 
-        foreach (Edge edge in edges)
+        float progress = 0;
+        try
         {
-            foreach (Edge targetEdge in edges)
+            foreach (Edge edge in edges)
             {
-                if (edge == targetEdge) { continue; }
-
-                int startPointIndex = 0;
-                int endPointIndex = 0;
-
-                if (ValidConnectionExists(edge, targetEdge, out startPointIndex, out endPointIndex))
+                foreach (Edge targetEdge in edges)
                 {
-                    Transform linkObject = Instantiate(linkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity); // prev: Quaternion.LookRotation(direction) apparently rotation of link does not matter at all?
-                    var link = linkObject.GetComponent<NavMeshLink>();
+                    if (edge == targetEdge) { continue; }
 
-                    
+                    int startPointIndex = 0;
+                    int endPointIndex = 0;
 
-                    Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
-                    Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
+                    EditorUtility.DisplayProgressBar(
+                        "Generating Links...",
+                        $"Checking connection {progress + 1} of {edges.Count - 1}",
+                        progress);
 
-                    NavLinkManager.Instance.navLinks.Add(new LinkData(edge.connectionPoint[startPointIndex], globalEndPoint, link));
+                    if (ValidConnectionExists(edge, targetEdge, out startPointIndex, out endPointIndex))
+                    {
+                        Transform linkObject = Instantiate(linkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity); // prev: Quaternion.LookRotation(direction) apparently rotation of link does not matter at all?
+                        var link = linkObject.GetComponent<NavMeshLink>();
 
-                    link.endPoint = localEndPoint;
-                    link.UpdateLink();
-                    linkObject.transform.SetParent(allLinksGroup);
+
+
+                        Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
+                        Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
+
+                        navLinkManager.navLinks.Add(new LinkData(edge.connectionPoint[startPointIndex], globalEndPoint, link));
+
+                        link.endPoint = localEndPoint;
+                        link.UpdateLink();
+                        linkObject.transform.SetParent(generatedLinksGroup);
+                    }
                 }
+                progress += 1;
             }
-        } 
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error during link generation: {ex.Message}");
+        }
+        finally
+        {
+            EditorUtility.ClearProgressBar();
+        }
     }
 
     public bool ValidConnectionExists(Edge edge, Edge targetEdge, out int beginIndex, out int endIndex)
@@ -239,7 +308,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     public void DeleteLinks()
     {
-        foreach (Transform child in allLinksGroup.transform)
+        foreach (Transform child in generatedLinksGroup.transform)
         {
             Destroy(child.gameObject);
         }
@@ -268,6 +337,11 @@ public class EdgeManagerEditor : Editor
         if (GUILayout.Button("Highlight Directions"))
         {
             navMeshLinks.HighlightEdgeDirections();
+        }
+
+        if (GUILayout.Button("AutoAssign"))
+        {
+            navMeshLinks.AutoAssign();
         }
     }
 }
