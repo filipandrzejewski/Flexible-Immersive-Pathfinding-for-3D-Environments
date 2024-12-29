@@ -11,12 +11,13 @@ using UnityEditor;
 
 public class NavLinkManager : MonoBehaviour
 {
+    [SerializeField]
     public static NavLinkManager Instance { get; private set; }
 
     [SerializeField]
     public List<LinkData> navLinks = new List<LinkData>();
 
-    //public bool isAsyncProcessingEnabled = true; // Toggle for async queueing
+    //public bool isAsyncProcessingEnabled = true; //async queueing
     private Queue<NavRequest> requestQueue = new Queue<NavRequest>();
     private bool isProcessing = false;
 
@@ -32,9 +33,6 @@ public class NavLinkManager : MonoBehaviour
         }
     }
 
-
-    /// Add a navigation request for an 
-    /// .
     public void RequestPath(CharacterMovement character, Vector3 destination, Action<bool> onPathCalculated = null)
     {
         NavRequest newRequest = new NavRequest(character, destination, onPathCalculated);
@@ -67,8 +65,6 @@ public class NavLinkManager : MonoBehaviour
 
     }
 
-
-    /// Synchronous Path Processing
     private void ProcessPathSync(NavRequest request)
     {
         foreach (LinkData link in navLinks)
@@ -90,8 +86,6 @@ public class NavLinkManager : MonoBehaviour
             link.linkComponent.costModifier = link.ogCostModifier;
         }
     }
-
-    /// Asynchronous Path Processing
 
     private async void ProcessPathAsync(NavRequest request)
     {
@@ -119,7 +113,7 @@ public class NavLinkManager : MonoBehaviour
         });
     }
 
-    public void UpdateLinks()
+    public void UpdateLinks() // DELETE EMPTY LINKS HERE
     {
         NavMeshLink[] allLinks = FindObjectsOfType<NavMeshLink>();
 
@@ -157,6 +151,11 @@ public class NavLinkManager : MonoBehaviour
     public void DeleteLinks()
     {
         navLinks.Clear();
+    }
+
+    public void DeleteLink(NavMeshLink delete)
+    {
+        navLinks.RemoveAll(linkData => linkData.linkComponent == delete);
     }
 
     public List<LinkData> GetLinkDataList()
