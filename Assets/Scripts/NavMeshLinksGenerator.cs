@@ -15,7 +15,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     [SerializeField] public float maxEdgeLinkDistance = 16; // maximum distance for conections edge to edge
     [SerializeField] public float shortLinkDistance = 2; // distance at which the link will be created with less restrictions
-    [SerializeField] float maxDropDownLinkDistance = 6f; // maximum distance to search for dropdown links
+    [SerializeField] float maxDropDownLinkDistance = 20f; // maximum distance to search for dropdown links
     [SerializeField] float[] dropDownLinkAngles = { 0f, -30f, 30f }; // angles (rotations in Y axis) at which to search for dropdown links
     [SerializeField] float dropDownSteepnessModifier = 3; // determines at how steep angle to search for the dropdown links (is a Y component in raycast vector direction)
     [SerializeField] public float minEdgeLength = 0.2f; // minimal distance to classify Edge (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
@@ -125,23 +125,23 @@ public class NavMeshLinksGenerator : MonoBehaviour
         }
 
         // DEBUG POINTS ----------------------------------------------
-        //foreach (Edge edge in edges)
-        //{
-        //    if (edge.hasPivotPoint)
-        //    {
-        //        foreach (Vector3 falloffPoint in edge.falloffPoint)
-        //        {
-        //            Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
-        //        Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
-        //    }
-        //}
+        foreach (Edge edge in edges)
+        {
+            if (edge.hasPivotPoint)
+            {
+                foreach (Vector3 falloffPoint in edge.falloffPoint)
+                {
+                    Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
+                }
+            }
+            else
+            {
+                Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
+                Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
+            }
+        }
 
-        //edges.RemoveAll(edge => !edge.hasPivotPoint);
+        edges.RemoveAll(edge => !edge.hasPivotPoint);
     }
 
     private void PairToEdge(int n1, int n2, int n3) //N1 and N2 will be used for calculating the edge, N3 will be used to calculate the norlmal of the plane that the edge is connected to  
@@ -180,8 +180,8 @@ public class NavMeshLinksGenerator : MonoBehaviour
         GetCurrentNavMeshSettings();
         if (edges.Count == 0) { FindEdges(); }
         else 
-        {
-            if (edges[0].falloffDistance - navMeshSettings.agentRadius * 1.2 > Mathf.Epsilon)
+         {
+            if (Mathf.Abs(edges[0].falloffDistance - navMeshSettings.agentRadius * 1.1f + 0.1f) < Mathf.Epsilon)
             {
                 edges.Clear();
                 FindEdges();
@@ -199,8 +199,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
     public void CreateLinks()
     {
         CheckCreateConditions();
-
-        //if (edges.Count == 0) { FindEdges(); }
 
         Debug.Log("Creating Links");
         if (standardLinkPrefab == null) { return; }
@@ -247,10 +245,10 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 progress += 1;
             }
         }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"Error during link generation: {ex.Message}");
-        }
+        //catch (System.Exception ex)
+        //{
+        //    Debug.LogError($"Error during link generation: {ex.Message}");
+        //}
         finally
         {
             EditorUtility.ClearProgressBar();
@@ -271,6 +269,11 @@ public class NavMeshLinksGenerator : MonoBehaviour
         {
             Quaternion rotation = Quaternion.Euler(0, dropDownLinkAngles[i], 0);
             Vector3 checkDirection = rotation * edge.falloffDirection.normalized; // Spread direction based on falloff
+
+            Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * checkDirection), Color.green, 5f);
+
+            Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * (checkDirection + (dropDownSteepnessModifier * Vector3.down))), Color.yellow, 5f);
+
 
             if (Physics.Raycast(edge.falloffPoint[0], checkDirection + (dropDownSteepnessModifier * Vector3.down), out RaycastHit hit, maxDropDownLinkDistance))
             {
@@ -391,7 +394,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     public void DeleteLinks()
     {
-        edges.Clear();
+        //edges.Clear();
 
         foreach (Transform child in generatedLinksGroup.transform)
         {

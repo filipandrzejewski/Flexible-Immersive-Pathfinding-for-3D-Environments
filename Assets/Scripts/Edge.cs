@@ -22,9 +22,9 @@ public class Edge
 
     public Edge(Vector3 startPoint, Vector3 endPoint, Vector3 surfaceNormal, NavMeshBuildSettings navMeshSettings )
     {
-        falloffDistance = (float)(navMeshSettings.agentRadius * 1.3);
+        falloffDistance = (float)(navMeshSettings.agentRadius * 1.1 + 0.1);
         //falloffDistance = 0.7f;
-        pivotCheckDistance = (float)(navMeshSettings.agentClimb * 1.3);
+        pivotCheckDistance = (float)(navMeshSettings.agentClimb * 1.1 + 0.1);
         //pivotCheckDistance = 0.4f;
         start = startPoint;
         end = endPoint;
