@@ -5,11 +5,12 @@ using UnityEditor;
 
 public class SmartNavMeshLink : NavMeshLink
 {
+    public string name;
     private void OnDestroy()
     {
         if (NavLinkManager.Instance == null || NavLinkManager.Instance.navLinks == null)
         {
-            Debug.LogWarning($"NavLinkManager or navLinks is not initialized. Could not remove link: {gameObject.name}");
+            //Debug.LogWarning($"NavLinkManager or navLinks is not initialized. Could not remove link: {gameObject.name}");
             return;
         }
 
@@ -17,7 +18,7 @@ public class SmartNavMeshLink : NavMeshLink
 
         if (removedCount > 0)
         {
-            Debug.Log($"Removed {removedCount} link(s) associated with {gameObject.name} from NavLinkManager.");
+            Debug.Log($"Removed {removedCount} link(s) associated with {name} from NavLinkManager.");
 #if UNITY_EDITOR
             EditorUtility.SetDirty(NavLinkManager.Instance); // Ensure changes are saved in Editor
 #endif

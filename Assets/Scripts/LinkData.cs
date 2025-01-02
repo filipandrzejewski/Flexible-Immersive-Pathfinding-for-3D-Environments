@@ -15,8 +15,9 @@ public struct LinkData
     public float angle;
     public int ogCostModifier;
     public NavMeshLink linkComponent;
+    public bool wasGenerated;
 
-    public LinkData(Vector3 startPoint, Vector3 endPoint, NavMeshLink _linkObject)
+    public LinkData(Vector3 startPoint, Vector3 endPoint, NavMeshLink _linkObject, bool generated)
     {
         this.start = startPoint;
         this.end = endPoint;
@@ -27,10 +28,6 @@ public struct LinkData
         this.angle = Vector3.Angle(direction, flat);
         if (end.y < start.y) { angle = -angle; }
         linkComponent = _linkObject;
-    }
-
-    public bool MatchesLink(NavMeshLink link)
-    {
-        return link == linkComponent;
+        wasGenerated = generated;
     }
 }

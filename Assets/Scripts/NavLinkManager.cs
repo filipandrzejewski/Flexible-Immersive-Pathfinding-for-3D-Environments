@@ -20,6 +20,7 @@ public class NavLinkManager : MonoBehaviour
     //public bool isAsyncProcessingEnabled = true; //async queueing
     private Queue<NavRequest> requestQueue = new Queue<NavRequest>();
     private bool isProcessing = false;
+    
 
     private void Awake()
     {
@@ -30,6 +31,14 @@ public class NavLinkManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void AutoAssignInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
         }
     }
 
@@ -113,44 +122,41 @@ public class NavLinkManager : MonoBehaviour
         });
     }
 
-    public void UpdateLinks() // DELETE EMPTY LINKS HERE
+    public int UpdateLinks()
     {
         NavMeshLink[] allLinks = FindObjectsOfType<NavMeshLink>();
 
+        int newLinksRecognized = 0;
+
         foreach (NavMeshLink link in allLinks)
         {
-            bool linkFound = false;
+            bool linkMatchedExisting = false;
 
             for (int i = 0; i < navLinks.Count; i++)
             {
-                if (navLinks[i].MatchesLink(link))
+                if (navLinks[i].linkComponent == link)
                 {
-                    // Update existing link data
-                    navLinks[i] = new LinkData(link.startPoint, link.endPoint, link);
-                    linkFound = true;
+                    linkMatchedExisting = true;
                     break;
                 }
             }
 
-            if (!linkFound)
+            if (!linkMatchedExisting) // Create new entry for existing link
             {
-                // Add new link data if no match is found
-                LinkData newData = new LinkData(link.startPoint, link.endPoint, link);
+                LinkData newData = new LinkData(link.startPoint, link.endPoint, link, false);
+                newLinksRecognized += 1;
                 navLinks.Add(newData);
             }
         }
 
-        // Remove any entries that no longer have a valid link reference
+        // Cleanup linkData with no actuall reference to link object
         navLinks.RemoveAll(data => data.linkComponent == null);
 
         #if UNITY_EDITOR
-        EditorUtility.SetDirty(this); // Mark the object as dirty to save changes
-        #endif
-    }
+        EditorUtility.SetDirty(this);
+#endif
 
-    public void DeleteLinks()
-    {
-        navLinks.Clear();
+        return newLinksRecognized;
     }
 
     public void DeleteLink(NavMeshLink delete)
@@ -173,17 +179,39 @@ public class NavLinkManagerEditor : Editor
         DrawDefaultInspector();
 
         NavLinkManager manager = (NavLinkManager)target;
+        NavMeshLinksGenerator generator = manager.GetComponent<NavMeshLinksGenerator>();
 
-        if (GUILayout.Button("Update Links"))
+        if (generator == null)
         {
-            manager.UpdateLinks();
-            Debug.Log("NavMesh Links have been updated.");
+            EditorGUILayout.HelpBox("NavMeshLinksGenerator component not found on the same GameObject. Make sure the manager object holds both NavLinkGenerator and NavLinkManager scripts.", MessageType.Error);
+            return;
+        }
+
+        if (GUILayout.Button("Create Links"))
+        {
+            generator.CreateLinks();
         }
         if (GUILayout.Button("Delete Links"))
         {
-            manager.DeleteLinks();
-            Debug.Log("NavMesh Links have been deleted.");
+            generator.DeleteLinks();
         }
+        if (GUILayout.Button("Highlight Links and Edges"))
+        {
+            generator.HighlightAll();
+        }
+        if (GUILayout.Button("Update Links"))
+        {
+            Debug.Log($"NavMesh Links have been updated.");
+            manager.UpdateLinks();
+            
+        }
+
+        if (GUILayout.Button("Auto Assign Components"))
+        {
+            manager.AutoAssignInstance();
+            Debug.Log("NavMesh Links have been updated.");
+        }
+
     }
 }
 #endif
