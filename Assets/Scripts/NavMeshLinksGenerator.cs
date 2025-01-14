@@ -20,27 +20,40 @@ public class NavMeshLinksGenerator : MonoBehaviour
     private NavLinkManager navLinkManager;
 
     [Header("Edge Detection Settings")]
-    [SerializeField, Tooltip("Edges longer than specified value will be divided into 2 edges")] 
+    [SerializeField, Tooltip("Edges longer than specified value will be divided into 2 edges.")] 
     public float maxEdgeLength = 8f;
-    [SerializeField, Tooltip("Edges shorter than specified value will be averaged and grouped based on their neighbours")] 
+    [SerializeField, Tooltip("Edges shorter than specified value will be averaged and grouped based on their neighbours.\n When set to 0 this parameter will be ignored")] 
     public float minEdgeLength = 0.2f; 
     [SerializeField, Tooltip("Maximal size of a group of small edges to be averaged into one Edge")] 
     public int maxGroupSize = 6;
     [SerializeField, Tooltip("Minimal size of a group of small edges to be averaged into one Edge")] 
     public int minGroupSize = 3;
+    [SerializeField] [HideInInspector]
+    private EdgeParameters edgeParameters;
 
 
-    [Header("Link Generation Settings")]
-    [SerializeField, Tooltip("Maximum distance for conections edge to edge")] 
+    [Header("Basic Link Generation Settings")]
+    [SerializeField, Tooltip("Maximum distance for conections edge to edge\n When set to 0 this parameter will be ignored")] 
     public float maxEdgeLinkDistance = 16;
     [SerializeField, Tooltip("Distance at which links will be created with less restrictions")] 
     public float shortLinkDistance = 2;
     [SerializeField, Tooltip("Maximum distance to search for dropdown links")] 
     float maxDropDownLinkDistance = 20f;
+
+    [Header("Advanced Link Generation Settings")]
+    [SerializeField, Tooltip("Determines the angle at which to search for the dropdown links (is a Y component in raycast vector direction)")]
+    float dropDownSteepnessModifier = 3;
     [SerializeField, Tooltip("Angles (rotations in Y axis) at which to search for dropdown links")] 
     float[] dropDownLinkAngles = { 0f, -30f, 30f };
-    [SerializeField, Tooltip("Determines the angle at which to search for the dropdown links (is a Y component in raycast vector direction)")] 
-    float dropDownSteepnessModifier = 3;
+    [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Forward Direction.\n Forward Direction is  link's FalloffDirection projected onto a XZ plane")]
+    float standardAngleRestrictionForward = 65;
+    [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Upward Direction.\n Upward Direction is normal to a surface an edge is a part of")]
+    float standardAngleRestrictionUpward = 30;
+    [SerializeField, Tooltip("Angle limit at which short links are permitted to connect relative to Forward Direction.\n Forward Direction is  link's FalloffDirection projected onto a XZ plane")]
+    float permissiveAngleRestrictionForward = 89;
+    [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Upward Direction.\n Upward Direction is normal to a surface an edge is a part of")]
+    float permissiveAngleRestrictionUpward = 65;
+
 
     [Space]
     [SerializeField] private Transform debugFaloffPointPrefab;
@@ -156,7 +169,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
         for (int i = 0; i < pairIndices.Length - 1; i += 3)
         {
-            // the process works based on triangles (even though the visual mesh may not) which is why the pair function is called 3 times)
             // If a triangle has its edge repeated in another triangle the connection should be deleted as it is not actually the Edge of the solid
             PairToEdge(i, i + 1, i + 2);
             PairToEdge(i + 1, i + 2, i);
@@ -178,24 +190,25 @@ public class NavMeshLinksGenerator : MonoBehaviour
             edges.Add(mergedEdge);
         }
 
+        //DEBUG POINTS ----------------------------------------------
+        foreach (Edge edge in edges)
+        {
+            if (edge.hasPivotPoint)
+            {
+                foreach (Vector3 falloffPoint in edge.falloffPoint)
+                {
+                    Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
+                }
+            }
+            else
+            {
+                Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
+                Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
+            }
+        }
+
         edges.RemoveAll(edge => !edge.hasPivotPoint);
 
-        // DEBUG POINTS ----------------------------------------------
-        //foreach (Edge edge in edges)
-        //{
-        //    if (edge.hasPivotPoint)
-        //    {
-        //        foreach (Vector3 falloffPoint in edge.falloffPoint)
-        //        {
-        //            Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
-        //        Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
-        //    }
-        //}
 
 
     }
@@ -204,16 +217,10 @@ public class NavMeshLinksGenerator : MonoBehaviour
     {
         Vector3 point1 = vertices[pairIndices[n1]];
         Vector3 point2 = vertices[pairIndices[n2]];
-
-        if (Vector3.Distance(point1, point2) < minEdgeLength)
-        {
-            return; // (will not work on high res mesh with rounded corners, need to simplify edges in the calculations)
-        }
-
         Vector3 point3 = vertices[pairIndices[n3]];
         Vector3 surfaceVector = point3 - point1;
 
-        Vector3 surfaceNormal = Vector3.Cross(point1 - point2, surfaceVector).normalized;
+        Vector3 surfaceNormal = Vector3.Cross(point2 - point1, surfaceVector).normalized;
 
 
         Edge newEdge = new Edge(point1, point2, surfaceNormal, navMeshSettings);
@@ -305,19 +312,19 @@ public class NavMeshLinksGenerator : MonoBehaviour
         if (edges.Count == 0) { FindEdges(); }
         else 
          {
+            if (edgeParameters.ParametersChanged(maxEdgeLength, minEdgeLength, maxGroupSize, minGroupSize))
+            {
+                edges.Clear();
+                FindEdges();
+                return;
+            }
             if (VerticesChanged())
             {
                 edges.Clear();
                 FindEdges();
+                return;
             }            
         }
-
-        if (edges.Count == 0)
-        {
-            Debug.LogWarning("Links could not be made as there were no suitable Edges detected in the scene. Check the NavMeshSUrface setting");
-        }
-
-        if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
     }
 
     private bool VerticesChanged()
@@ -342,9 +349,17 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     public void CreateLinks()
     {
+        
         CheckCreateConditions();
 
         Debug.Log("Creating Links");
+
+        if (edges.Count == 0)
+        {
+            Debug.LogWarning("Links could not be made as there were no suitable Edges detected in the scene. Check the NavMeshSUrface setting");
+            return;
+        }
+        if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
         if (standardLinkPrefab == null) { return; }
 
         float progress = 0;
@@ -389,10 +404,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 progress += 1;
             }
         }
-        //catch (System.Exception ex)
-        //{
-        //    Debug.LogError($"Error during link generation: {ex.Message}");
-        //}
         finally
         {
             EditorUtility.ClearProgressBar();
@@ -456,32 +467,36 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 Vector3 direction = (targetEdge.falloffPoint[j] - edge.falloffPoint[i]).normalized;
                 float distance = Vector3.Distance(targetEdge.falloffPoint[j], edge.falloffPoint[i]);
 
+                
+
                 if (maxEdgeLinkDistance > 0 & distance > maxEdgeLinkDistance) { continue; } // skip connections that are physically too long | 0 -> maxLinkDistance ignored
                 if (shortLinkDistance > 0 & distance < shortLinkDistance) // loosen the angle restrictions on very short links | 0 -> shortLinkDistance ignored
                 {
-                    if (Vector3.Angle(direction, Vector3.Cross(edge.falloffDirection, -Vector3.Cross(edge.falloffDirection, Vector3.up))) > 65 &
-                    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > 89) { continue; } 
+                    // Permisive angles:
 
-                    if (Vector3.Angle(-direction, Vector3.Cross(targetEdge.falloffDirection, -Vector3.Cross(targetEdge.falloffDirection, Vector3.up))) > 65 &
-                        Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > 89) { continue; } 
+                    if (Vector3.Angle(direction, edge.edgeSurfaceNormal) > permissiveAngleRestrictionUpward &
+                    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; } 
+
+                    if (Vector3.Angle(-direction, targetEdge.edgeSurfaceNormal) > permissiveAngleRestrictionUpward &
+                        Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; } 
                 }
                 else
                 {
-                    if (Vector3.Angle(direction, Vector3.Cross(edge.falloffDirection, -Vector3.Cross(edge.falloffDirection, Vector3.up))) > 30 &
-                    //                                                                    ^ flat vector perpendicular to direction (-) Anticlockwise - because Unity is using lefthand model
-                    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > 65) { continue; } //skip sharp connections with selected edge (both regarding to pararell direction pointing upwards and flattened direction in regards to the floor)
+                    //Strict angles:
 
-                    //if (Vector3.Angle(direction, edge.falloffDirection) > 65 &
-                    //    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > 85) { continue; } //skip sharp connections with selected edge (both regarding to its direction and flattened direction in regards to the floor)
+                    if (Vector3.Angle(direction, edge.edgeSurfaceNormal) > standardAngleRestrictionUpward &
+                    Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } //skip sharp connections with selected edge (both regarding to edge surface normal and falloff direction flattened in regards to the floor)
 
-                    if (Vector3.Angle(-direction, Vector3.Cross(targetEdge.falloffDirection, -Vector3.Cross(targetEdge.falloffDirection, Vector3.up))) > 30 &
-                        Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > 65) { continue; } //skip same sharp connections with target edge 
+
+                    if (Vector3.Angle(-direction, targetEdge.edgeSurfaceNormal) > standardAngleRestrictionUpward &
+                        Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } //skip same sharp connections with target edge 
                 }
 
 
                 if (!Physics.Raycast(edge.falloffPoint[i], direction, distance) && !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
                 {
                     // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
+
                     Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.green, 5.0f);
                     beginIndex = i;
                     endIndex = j;
@@ -572,6 +587,46 @@ public class NavMeshLinksGenerator : MonoBehaviour
 #if UNITY_EDITOR
         EditorUtility.SetDirty(navLinkManager);
 #endif
+    }
+}
+
+public struct EdgeParameters
+{
+    public float maxEdgeLength;
+    public float minEdgeLength;
+    public int maxGroupSize;
+    public int minGroupSize;
+
+    public EdgeParameters(float maxLength, float minLength, int maxSize, int minSize)
+    {
+        maxEdgeLength = maxLength;
+        minEdgeLength = minLength;
+        maxGroupSize = maxSize;
+        minGroupSize = minSize;
+    }
+
+    public bool ParametersChanged(float maxLength, float minLength, int maxSize, int minSize)
+    {
+        bool changed = Compare(maxLength, minLength, maxSize, minSize);
+        if (changed)
+        {
+            maxEdgeLength = maxLength;
+            minEdgeLength = minLength;
+            maxGroupSize = maxSize;
+            minGroupSize = minSize;
+        }
+        return changed;
+
+    }
+
+    private bool Compare(float maxLength, float minLength, int maxSize, int minSize)
+    {
+        if (maxLength != maxEdgeLength) { return true; }
+        if (minLength != minEdgeLength) { return true; }
+        if (maxSize != maxGroupSize) { return true; }
+        if (minSize != minGroupSize) { return true; }
+
+        return false;
     }
 }
 

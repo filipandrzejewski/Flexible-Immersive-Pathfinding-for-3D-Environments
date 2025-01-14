@@ -10,8 +10,8 @@ public class Edge
     public Vector3 start;
     public Vector3 end;
     public float length;
-    public Vector3 edgeSurfaceNormal; // normal of a surface this edge is a part of - used only to calculate the direction of raycast for pivot points as they should check for collision with the floor
-    
+    public Vector3 edgeSurfaceNormal; // normal of a surface this edge is a part of 
+
     // Points are structured in form of lists. Having multiple points could later be used to smooth the connections so that every connection uses the straightest path to the edge.
     public List<Vector3> connectionPoint = new List<Vector3>();
     public List<Vector3> falloffPoint = new List<Vector3>(); // points in the middle of the edge slightly shifted towards the ledge 
@@ -83,7 +83,7 @@ public class Edge
         }
 
         //Cast a short ray downward from the pivot to detect a fall
-        if (Physics.Raycast(pivot, edgeSurfaceNormal, pivotCheckDistance))
+        if (Physics.Raycast(pivot, -edgeSurfaceNormal, pivotCheckDistance))
         {
             return false;  // Hit something beneath, not hovering
         }
