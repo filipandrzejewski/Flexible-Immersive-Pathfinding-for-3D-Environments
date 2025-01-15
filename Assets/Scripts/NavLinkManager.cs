@@ -42,7 +42,7 @@ public class NavLinkManager : MonoBehaviour
         }
     }
 
-    public void RequestPath(CharacterMovement character, Vector3 destination, Action<bool> onPathCalculated = null)
+    public void RequestPath(PhysicalStatsLogic character, Vector3 destination, Action<bool> onPathCalculated = null)
     {
         NavRequest newRequest = new NavRequest(character, destination, onPathCalculated);
         requestQueue.Enqueue(newRequest);
@@ -78,7 +78,7 @@ public class NavLinkManager : MonoBehaviour
     {
         foreach (LinkData link in navLinks)
         {
-            if (link.length > 7) { link.linkComponent.costModifier = 999; }
+            if (link.length > request.character.maxJumpDistance) { link.linkComponent.costModifier = 9999; }
         }
         NavMeshPath path = new NavMeshPath();
         bool hasPath = request.character.GetAgent().CalculatePath(request.destination, path);
@@ -96,31 +96,31 @@ public class NavLinkManager : MonoBehaviour
         }
     }
 
-    private async void ProcessPathAsync(NavRequest request)
-    {
-        NavMeshPath path = new NavMeshPath();
-        bool hasPath = false;
-        Vector3 startPosition = request.character.GetAgent().transform.position;
-        int areaMask = request.character.GetAgent().areaMask;
+    //private async void ProcessPathAsync(NavRequest request)
+    //{
+    //    NavMeshPath path = new NavMeshPath();
+    //    bool hasPath = false;
+    //    Vector3 startPosition = request.character.GetAgent().transform.position;
+    //    int areaMask = request.character.GetAgent().areaMask;
 
-        // Use NavMesh.CalculatePath instead of agent.CalculatePath
-        hasPath = await Task.Run(() =>
-        {
-            return NavMesh.CalculatePath(startPosition, request.destination, areaMask, path);
-        });
+    //    // Use NavMesh.CalculatePath instead of agent.CalculatePath
+    //    hasPath = await Task.Run(() =>
+    //    {
+    //        return NavMesh.CalculatePath(startPosition, request.destination, areaMask, path);
+    //    });
 
-        // Switch back to main thread to set the path
-        await UnityMainThreadDispatcher.Instance.Enqueue(() =>
-        {
-            if (hasPath)
-            {
-                request.character.GetAgent().SetPath(path); // Safe on the main thread
-            }
+    //    // Switch back to main thread to set the path
+    //    await UnityMainThreadDispatcher.Instance.Enqueue(() =>
+    //    {
+    //        if (hasPath)
+    //        {
+    //            request.character.GetAgent().SetPath(path); // Safe on the main thread
+    //        }
 
-            request.onPathCalculated?.Invoke(hasPath);
-            ProcessNextRequest();
-        });
-    }
+    //        request.onPathCalculated?.Invoke(hasPath);
+    //        ProcessNextRequest();
+    //    });
+    //}
 
     public int UpdateLinks()
     {
@@ -219,11 +219,11 @@ public class NavLinkManagerEditor : Editor
 /// Struct for navigation requests.
 public struct NavRequest
 {
-    public CharacterMovement character;
+    public PhysicalStatsLogic character;
     public Vector3 destination;
     public Action<bool> onPathCalculated;
 
-    public NavRequest(CharacterMovement character, Vector3 destination, Action<bool> onPathCalculated)
+    public NavRequest(PhysicalStatsLogic character, Vector3 destination, Action<bool> onPathCalculated)
     {
         this.character = character;
         this.destination = destination;

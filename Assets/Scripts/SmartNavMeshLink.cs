@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class SmartNavMeshLink : NavMeshLink
 {
-    public string name;
+    public string linkName;
     private void OnDestroy()
     {
         if (NavLinkManager.Instance == null || NavLinkManager.Instance.navLinks == null)
@@ -18,7 +18,7 @@ public class SmartNavMeshLink : NavMeshLink
 
         if (removedCount > 0)
         {
-            Debug.Log($"Removed {removedCount} link(s) associated with {name} from NavLinkManager.");
+            Debug.Log($"Removed {removedCount} link(s) associated with {linkName} from NavLinkManager.");
 #if UNITY_EDITOR
             EditorUtility.SetDirty(NavLinkManager.Instance); // Ensure changes are saved in Editor
 #endif
