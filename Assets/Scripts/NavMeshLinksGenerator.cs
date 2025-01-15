@@ -13,6 +13,12 @@ public class NavMeshLinksGenerator : MonoBehaviour
     [SerializeField, Tooltip("[AUTO-ASSIGN: LinkPrefab(Wide)]\n Prefab used for NavMesh links stratching down from ledges")] 
     public Transform dropDownLinkPrefab;
 
+    [Header("Link Raycasts")]
+    [SerializeField, Tooltip("If enabled performs customized box cast with the dimensions dependent on agent size and height of the jump arcs")]
+    public bool enableJumpArcRayCasts;
+    [SerializeField, Tooltip("Determines the stylized height of the jump arc. Is used only when jumpArcRaycast is enabled")]
+    public float maxjumpArcHeight = 1.2f;
+
     [Header("Manager Object References")]
     [SerializeField, Tooltip("[AUTO-ASSIGN: First scene object containing NavMeshSurface component]\n Main NavMeshSurface for the scene")]  // this may need to be extended to be used on many different nav mesh surfaces each for differentr agent types
     public NavMeshSurface navMeshSurface;
@@ -42,20 +48,21 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
     [Header("Advanced Link Generation Settings")]
     [SerializeField, Tooltip("Determines the angle at which to search for the dropdown links (is a Y component in raycast vector direction)")]
-    float dropDownSteepnessModifier = 3;
-    [SerializeField, Tooltip("Angles (rotations in Y axis) at which to search for dropdown links")] 
-    float[] dropDownLinkAngles = { 0f, -30f, 30f };
+    public float dropDownSteepnessModifier = 3;
+    [SerializeField, Tooltip("Angles (rotations in Y axis) at which to search for dropdown links")]
+    public float[] dropDownLinkAngles = { 0f, -30f, 30f };
     [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Forward Direction.\n Forward Direction is  link's FalloffDirection projected onto a XZ plane")]
-    float standardAngleRestrictionForward = 65;
+    public float standardAngleRestrictionForward = 65;
     [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Upward Direction.\n Upward Direction is normal to a surface an edge is a part of")]
-    float standardAngleRestrictionUpward = 30;
+    public float standardAngleRestrictionUpward = 30;
     [SerializeField, Tooltip("Angle limit at which short links are permitted to connect relative to Forward Direction.\n Forward Direction is  link's FalloffDirection projected onto a XZ plane")]
-    float permissiveAngleRestrictionForward = 89;
+    public float permissiveAngleRestrictionForward = 89;
     [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Upward Direction.\n Upward Direction is normal to a surface an edge is a part of")]
-    float permissiveAngleRestrictionUpward = 65;
-
+    public float permissiveAngleRestrictionUpward = 65;
 
     [Space]
+    [Space]
+
     [SerializeField] private Transform debugFaloffPointPrefab;
     [SerializeField] private Transform debugCornerPointPrefab;
 
@@ -178,7 +185,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
         List<List<Edge>> groupedEdges = GroupShortEdges();
         foreach (List<Edge> group in groupedEdges)
         {
-            Edge mergedEdge = MergeEdgeGroup(group);
+            Edge mergedEdge = GroupRepresentative(group);
 
             // Remove grouped edges
             foreach (Edge edge in group)
@@ -190,27 +197,25 @@ public class NavMeshLinksGenerator : MonoBehaviour
             edges.Add(mergedEdge);
         }
 
-        //DEBUG POINTS ----------------------------------------------
         foreach (Edge edge in edges)
         {
             if (edge.hasPivotPoint)
             {
                 foreach (Vector3 falloffPoint in edge.falloffPoint)
                 {
+                    //Debug.Log("Debug: Valid Edge");
                     Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
                 }
             }
             else
             {
+                //Debug.Log("Debug: Invalid Edge");
                 Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
                 Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
             }
         }
 
         edges.RemoveAll(edge => !edge.hasPivotPoint);
-
-
-
     }
 
     private void PairToEdge(int n1, int n2, int n3) //N1 and N2 will be used for calculating the edge, N3 will be used to calculate the norlmal of the plane that the edge is connected to  
@@ -305,13 +310,47 @@ public class NavMeshLinksGenerator : MonoBehaviour
         return mergedEdge;
     }
 
+    private Edge GroupRepresentative(List<Edge> group)
+    {
+        Vector3 averagefalloffDirection = Vector3.zero;
+        foreach (var edge in group)
+        {
+            averagefalloffDirection += edge.falloffDirection; 
+        }
+        averagefalloffDirection.Normalize();
+
+        Edge bestRepresentative = null;
+        float smallestAngle = float.MaxValue;
+
+        foreach (var edge in group)
+        {
+            float angle = Vector3.Angle(averagefalloffDirection, edge.falloffDirection);
+            if (angle < smallestAngle)
+            {
+                smallestAngle = angle;
+                bestRepresentative = edge;
+            }
+        }
+
+        Edge newEdge = null;
+
+        if (bestRepresentative != null)
+        {
+            newEdge = new Edge(bestRepresentative);
+            newEdge.falloffDirection = (newEdge.falloffDirection.normalized + averagefalloffDirection).normalized;
+        }
+
+        return newEdge;
+
+    }
+
 
     private void CheckCreateConditions()
     {
         GetCurrentNavMeshSettings();
         if (edges.Count == 0) { FindEdges(); }
-        else 
-         {
+        else
+        {
             if (edgeParameters.ParametersChanged(maxEdgeLength, minEdgeLength, maxGroupSize, minGroupSize))
             {
                 edges.Clear();
@@ -323,7 +362,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 edges.Clear();
                 FindEdges();
                 return;
-            }            
+            }
         }
     }
 
@@ -351,8 +390,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
     {
         
         CheckCreateConditions();
-
-        Debug.Log("Creating Links");
 
         if (edges.Count == 0)
         {
@@ -431,7 +468,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
 
             if (Physics.Raycast(edge.falloffPoint[0], checkDirection + (dropDownSteepnessModifier * Vector3.down), out RaycastHit hit, maxDropDownLinkDistance))
             {
-                if (LinkExists(edge.connectionPoint[0], hit.point)) { continue; }
+                if (LinkExists(edge.connectionPoint[0], hit.point)) { return; }
 
                 Vector3 startPoint = edge.connectionPoint[0];
                 Vector3 endPoint = hit.point;
@@ -492,12 +529,45 @@ public class NavMeshLinksGenerator : MonoBehaviour
                         Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } //skip same sharp connections with target edge 
                 }
 
-
-                if (!Physics.Raycast(edge.falloffPoint[i], direction, distance) && !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
+                if (enableJumpArcRayCasts) // make an additionall customized box raycast to determine if the middle of the path is open enough for a jump arc
                 {
-                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
+                    float linkArcHeight = navMeshSettings.agentHeight + (maxjumpArcHeight * distance / maxEdgeLinkDistance);
 
-                    Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.green, 5.0f);
+                    float dot = Vector3.Dot(new Vector3(direction.x, Mathf.Abs(direction.y), direction.z), Vector3.up);
+                    //abs from height value means the dot product will result in value between 1 (perfectly alligned with upwards or downwards direction) and 0 (perfectly perpendicular to these directions)
+                    // I reverse the values because I want 1 - full range if the direcion if perfectly perpendicular to up) and 0 when the direction is perfectly alligned with up vector
+                    float steepnessModifier = 1 - Vector3.Dot(new Vector3(direction.x, Mathf.Abs(direction.y), direction.z), Vector3.up);
+
+                    linkArcHeight *= steepnessModifier;
+
+                    
+                    if (Physics.BoxCast(
+                        edge.falloffPoint[i] + direction * distance * 0.1f + Vector3.up * linkArcHeight * 0.5f,
+                        new Vector3(navMeshSettings.agentRadius, linkArcHeight * 0.5f, navMeshSettings.agentRadius),
+                        direction,
+                        Quaternion.identity,
+                        distance * 0.8f) &&
+                        Physics.BoxCast(
+                        targetEdge.falloffPoint[i] - direction * distance * 0.1f + Vector3.up * linkArcHeight * 0.5f,
+                        new Vector3(navMeshSettings.agentRadius, linkArcHeight * 0.5f, navMeshSettings.agentRadius),
+                        -direction,
+                        Quaternion.identity,
+                        distance * 0.8f))
+                    {
+                        //Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.red, 5.0f);
+
+                        beginIndex = i;
+                        endIndex = j;
+
+                        return false;
+                    }
+                }
+
+                if (!Physics.Raycast(edge.falloffPoint[i], direction, distance) &&
+                        !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
+                {
+                    //Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.green, 5.0f);
+
                     beginIndex = i;
                     endIndex = j;
 
@@ -505,9 +575,11 @@ public class NavMeshLinksGenerator : MonoBehaviour
                 }
                 else
                 {
-                    // DRAW DEBUG LINES FOR CONNECTIONS ---------------------------------
-                    Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.red, 5.0f);
+                    //Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.red, 5.0f);
                 }
+
+
+
 
             }
         }

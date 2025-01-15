@@ -38,6 +38,22 @@ public class Edge
         CalculateFalloffPivots();
     }
 
+    public Edge(Edge copiedEdge)
+    {
+        start = copiedEdge.start;
+        end = copiedEdge.end;
+        length = copiedEdge.length;
+        edgeSurfaceNormal = copiedEdge.edgeSurfaceNormal;
+
+        connectionPoint = new List<Vector3>(copiedEdge.connectionPoint);
+        falloffPoint = new List<Vector3>(copiedEdge.falloffPoint);
+
+        falloffDirection = copiedEdge.falloffDirection;
+        hasPivotPoint = copiedEdge.hasPivotPoint;
+        falloffDistance = copiedEdge.falloffDistance;
+        pivotCheckDistance = copiedEdge.pivotCheckDistance;
+    }
+
     private void CalculateFalloffPivots()
     {
         foreach (Vector3 point in connectionPoint)
