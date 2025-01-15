@@ -35,8 +35,7 @@ public class PhysicalStatsLogic : MonoBehaviour
             isCrossingLink = true;
             //Debug.Log($"Crossing a Link! --> {agent.currentOffMeshLinkData.endPos}");
             //Debug.DrawLine(transform.position, agent.currentOffMeshLinkData.endPos, Color.red, 3f);
-
-            if (Vector3.Distance(transform.position, agent.currentOffMeshLinkData.endPos) > maxJumpDistance)
+            if (Vector3.Distance((transform.position - Vector3.up * agent.height + agent.desiredVelocity.normalized * 2 * agent.radius), agent.currentOffMeshLinkData.endPos) > maxJumpDistance)
             {
                 agent.isStopped = true;
                 agent.ResetPath();
@@ -79,12 +78,6 @@ public class PhysicalStatsLogic : MonoBehaviour
 
                 isCrossingLink = false;
                 return;
-
-                //agent.CompleteOffMeshLink();
-                //agent.isStopped = true;
-                //agent.ResetPath();
-                //isCrossingLink = false;
-                //return;
             }
         }
 

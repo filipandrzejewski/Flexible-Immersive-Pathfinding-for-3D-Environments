@@ -7,18 +7,24 @@ using Unity.AI.Navigation;
 using UnityEditor;
 
 [Serializable]
-public struct LinkData
+public class LinkData
 {
     public Vector3 start;
     public Vector3 end;
     public float length;
     public float angle;
-    public int ogCostModifier;
     public NavMeshLink linkComponent;
     public bool wasGenerated;
 
+    [SerializeField]
+    private int ogCostModifier;
+
     public LinkData(Vector3 startPoint, Vector3 endPoint, NavMeshLink _linkObject, bool generated)
     {
+        if (_linkObject == null) 
+        {
+            Debug.LogWarning("No Link component has been passed!");
+        }
         this.start = startPoint;
         this.end = endPoint;
         this.length = Vector3.Distance(start, end);
@@ -29,5 +35,10 @@ public struct LinkData
         if (end.y < start.y) { angle = -angle; }
         linkComponent = _linkObject;
         wasGenerated = generated;
+    }
+
+    public void RevertCost()
+    {
+        linkComponent.costModifier = ogCostModifier;
     }
 }

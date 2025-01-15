@@ -34,6 +34,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
     public int maxGroupSize = 6;
     [SerializeField, Tooltip("Minimal size of a group of small edges to be averaged into one Edge")] 
     public int minGroupSize = 3;
+
     [SerializeField] [HideInInspector]
     private EdgeParameters edgeParameters;
 
@@ -60,7 +61,6 @@ public class NavMeshLinksGenerator : MonoBehaviour
     [SerializeField, Tooltip("Angle limit at which standard links are permitted to connect relative to Upward Direction.\n Upward Direction is normal to a surface an edge is a part of")]
     public float permissiveAngleRestrictionUpward = 65;
 
-    [Space]
     [Space]
 
     [SerializeField] private Transform debugFaloffPointPrefab;
@@ -203,15 +203,15 @@ public class NavMeshLinksGenerator : MonoBehaviour
             {
                 foreach (Vector3 falloffPoint in edge.falloffPoint)
                 {
-                    //Debug.Log("Debug: Valid Edge");
-                    Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
+                    Debug.Log("Debug: Valid Edge");
+                    //Instantiate(debugFaloffPointPrefab, falloffPoint, Quaternion.identity);
                 }
             }
             else
             {
-                //Debug.Log("Debug: Invalid Edge");
-                Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
-                Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
+                Debug.Log("Debug: Invalid Edge");
+                //Instantiate(debugCornerPointPrefab, edge.start, Quaternion.identity);
+                //Instantiate(debugCornerPointPrefab, edge.end, Quaternion.identity);
             }
         }
 
@@ -351,12 +351,16 @@ public class NavMeshLinksGenerator : MonoBehaviour
         if (edges.Count == 0) { FindEdges(); }
         else
         {
-            if (edgeParameters.ParametersChanged(maxEdgeLength, minEdgeLength, maxGroupSize, minGroupSize))
+            if (edgeParameters != null)
             {
-                edges.Clear();
-                FindEdges();
-                return;
+                if (edgeParameters.ParametersChanged(maxEdgeLength, minEdgeLength, maxGroupSize, minGroupSize))
+                {
+                    edges.Clear();
+                    FindEdges();
+                    return;
+                }
             }
+            
             if (VerticesChanged())
             {
                 edges.Clear();
@@ -390,6 +394,8 @@ public class NavMeshLinksGenerator : MonoBehaviour
     {
         
         CheckCreateConditions();
+
+        edgeParameters = new EdgeParameters(maxEdgeLength, minEdgeLength, maxGroupSize, minGroupSize);
 
         if (edges.Count == 0)
         {
@@ -428,7 +434,8 @@ public class NavMeshLinksGenerator : MonoBehaviour
                         Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
                         Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
 
-                        navLinkManager.navLinks.Add(new LinkData(edge.connectionPoint[startPointIndex], globalEndPoint, link, true));
+                        navLinkManager.navLinks.Add(new 
+                            (edge.connectionPoint[startPointIndex], globalEndPoint, link, true));
 
                         link.endPoint = localEndPoint;
                         link.UpdateLink();
@@ -662,7 +669,7 @@ public class NavMeshLinksGenerator : MonoBehaviour
     }
 }
 
-public struct EdgeParameters
+public class EdgeParameters
 {
     public float maxEdgeLength;
     public float minEdgeLength;

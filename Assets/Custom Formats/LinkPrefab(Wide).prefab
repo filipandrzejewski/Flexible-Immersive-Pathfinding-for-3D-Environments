@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7465725375758845222}
   - component: {fileID: 4647488655907926044}
   m_Layer: 0
-  m_Name: LinkPrefab(Standard)
+  m_Name: LinkPrefab(Wide)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,9 +47,8 @@ MonoBehaviour:
   m_AgentTypeID: 0
   m_StartPoint: {x: 0, y: 0, z: 0}
   m_EndPoint: {x: 0, y: 0, z: 2.5}
-  m_Width: 0
+  m_Width: 1
   m_CostModifier: 1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 0
   m_Area: 0
-  name: Edge-to-Edge Stanbdard Link

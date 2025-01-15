@@ -34,6 +34,11 @@ public class NavLinkManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Debug.Log(navLinks);
+    }
+
     public void AutoAssignInstance()
     {
         if (Instance == null)
@@ -78,7 +83,23 @@ public class NavLinkManager : MonoBehaviour
     {
         foreach (LinkData link in navLinks)
         {
-            if (link.length > request.character.maxJumpDistance) { link.linkComponent.costModifier = 9999; }
+            if (link.length > request.character.maxJumpDistance) 
+            { 
+                link.linkComponent.costModifier = 9999;
+                continue;
+            }
+
+            if (link.end.y - link.start.y > request.character.maxJumpHeight)
+            {
+                link.linkComponent.costModifier = 9999;
+                continue;
+            }
+
+            if (link.end.y - link.start.y < -request.character.maxDropDistance)
+            {
+                link.linkComponent.costModifier = 9999;
+                continue;
+            }
         }
         NavMeshPath path = new NavMeshPath();
         bool hasPath = request.character.GetAgent().CalculatePath(request.destination, path);
@@ -92,7 +113,7 @@ public class NavLinkManager : MonoBehaviour
 
         foreach (LinkData link in navLinks)
         {
-            link.linkComponent.costModifier = link.ogCostModifier;
+            link.RevertCost();
         }
     }
 
@@ -152,7 +173,7 @@ public class NavLinkManager : MonoBehaviour
         // Cleanup linkData with no actuall reference to link object
         navLinks.RemoveAll(data => data.linkComponent == null);
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
 #endif
 
