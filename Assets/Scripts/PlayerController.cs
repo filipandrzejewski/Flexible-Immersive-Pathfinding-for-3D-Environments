@@ -1,42 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-
-public class PlayerController : MonoBehaviour
+namespace FlexiblePathfindingSystem3D
 {
-    public enum MouseButton
-    {
-        LeftClick = 0,
-        RightClick = 1,
-        MiddleClick = 2
-    }
-    public MouseButton controlMouseButton = MouseButton.RightClick;
-    public PhysicalStatsLogic physicalStats;
-    public Camera mainCamera;
+    using UnityEngine;
 
-    private void Start()
+    public class PlayerController : MonoBehaviour
     {
-        if (physicalStats == null)
+        public enum MouseButton
         {
-            physicalStats = GetComponent<PhysicalStatsLogic>();
+            LeftClick = 0,
+            RightClick = 1,
+            MiddleClick = 2
+        }
+        public MouseButton controlMouseButton = MouseButton.RightClick;
+        public PhysicalStatsLogic physicalStats;
+        public Camera mainCamera;
+
+        private void Start()
+        {
             if (physicalStats == null)
             {
-                Debug.LogWarning($"{gameObject.name} player controller is missing a PhysicalStatsLogic component.");
+                physicalStats = GetComponent<PhysicalStatsLogic>();
+                if (physicalStats == null)
+                {
+                    Debug.LogWarning($"{gameObject.name} player controller is missing a PhysicalStatsLogic component.");
+                }
             }
         }
-    }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown((int)controlMouseButton))
+        void Update()
         {
-            Ray reycastClick = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(reycastClick, out var hitInfo))
+            if (Input.GetMouseButtonDown((int)controlMouseButton))
             {
-                NavLinkManager.Instance.RequestPath(physicalStats, hitInfo.point);
+                Ray reycastClick = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(reycastClick, out var hitInfo))
+                {
+                    NavLinkManager.Instance.RequestPath(physicalStats, hitInfo.point);
+                }
             }
+
         }
-        
     }
 }

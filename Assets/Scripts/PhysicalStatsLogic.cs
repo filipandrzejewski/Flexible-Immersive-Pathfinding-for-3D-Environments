@@ -1,114 +1,87 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using Unity.AI.Navigation;
-
-public class PhysicalStatsLogic : MonoBehaviour
+namespace FlexiblePathfindingSystem3D
 {
-    public float maxJumpHeight = 6.0f;
-    public float maxJumpDistance = 12.0f;
-    public float maxDropDistance = 10.0f;
+    using UnityEngine;
+    using UnityEngine.AI;
 
-
-    private NavMeshAgent agent;
-    private bool isCrossingLink = false;
-
-    void Awake()
+    public class PhysicalStatsLogic : MonoBehaviour
     {
-        agent = GetComponent<NavMeshAgent>();
-        if (agent == null)
+        public float maxJumpHeight = 6.0f;
+        public float maxJumpDistance = 12.0f;
+        public float maxDropDistance = 10.0f;
+
+        private NavMeshAgent agent;
+        private bool isCrossingLink = false;
+
+        void Awake()
         {
-            Debug.LogError($"{gameObject.name} character is missing a NavMeshAgent component.");
-        }
-    }
-
-    void Update()
-    {
-        if (isCrossingLink && !agent.isOnOffMeshLink)
-        {
-            isCrossingLink = false;
-        }
-
-        if (agent.isOnOffMeshLink && !isCrossingLink)
-        {
-            isCrossingLink = true;
-            //Debug.Log($"Crossing a Link! --> {agent.currentOffMeshLinkData.endPos}");
-            //Debug.DrawLine(transform.position, agent.currentOffMeshLinkData.endPos, Color.red, 3f);
-            if (Vector3.Distance((transform.position - Vector3.up * agent.height + agent.desiredVelocity.normalized * 2 * agent.radius), agent.currentOffMeshLinkData.endPos) > maxJumpDistance)
+            agent = GetComponent<NavMeshAgent>();
+            if (agent == null)
             {
-                agent.isStopped = true;
-                agent.ResetPath();
-                NavMeshHit hit;
-
-                if (NavMesh.SamplePosition(agent.transform.position, out hit, 1.0f, NavMesh.AllAreas))
-                {
-                    agent.Warp(hit.position);
-                }
-
-                isCrossingLink = false;
-                return;
-            }
-
-            if (agent.currentOffMeshLinkData.endPos.y - transform.position.y > maxJumpHeight)
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-                NavMeshHit hit;
-
-                if (NavMesh.SamplePosition(agent.transform.position, out hit, 1.0f, NavMesh.AllAreas))
-                {
-                    agent.Warp(hit.position);
-                }
-
-                isCrossingLink = false;
-                return;
-            }
-
-            if (agent.currentOffMeshLinkData.endPos.y - transform.position.y < -maxDropDistance)
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-                NavMeshHit hit;
-
-                if (NavMesh.SamplePosition(agent.transform.position, out hit, 1.0f, NavMesh.AllAreas))
-                {
-                    agent.Warp(hit.position);
-                }
-
-                isCrossingLink = false;
-                return;
+                Debug.LogError($"{gameObject.name} character is missing a NavMeshAgent component.");
             }
         }
 
-        //if (!agent.isOnOffMeshLink || isCrossingLink)
-        //    return;
+        void Update()
+        {
+            if (isCrossingLink && !agent.isOnOffMeshLink)
+            {
+                isCrossingLink = false;
+            }
 
-        //OffMeshLinkData linkData = agent.currentOffMeshLinkData;
+            if (agent.isOnOffMeshLink && !isCrossingLink)
+            {
+                isCrossingLink = true;
 
-        //if (!linkData.valid)
-        //    return;
+                //this is a safeguard method for the system. Particulary usefull when using the 9999 weights method. If the 9999 weights method is not in use this function can be disabled for faster calculation
+                if (!QuickLinkValid())
+                {
+                    StopAndRepath();
+                }
+            }
+        }
 
-        //float linkHeightDifference = Mathf.Abs(linkData.endPos.y - linkData.startPos.y);
+        public bool QuickLinkValid()
+        {
+            if (agent.currentOffMeshLinkData.endPos != null)
+            {
+                if (Vector3.Distance(agent.currentOffMeshLinkData.startPos, agent.currentOffMeshLinkData.endPos) > maxJumpDistance)
+                {
+                    return false;
+                }
 
-        //if (linkHeightDifference > maxJumpHeight)
-        //{
-        //    agent.isStopped = true;
-        //    agent.ResetPath();
-        //}
-    }
+                if (agent.currentOffMeshLinkData.endPos.y - agent.currentOffMeshLinkData.startPos.y > maxJumpHeight)
+                {
+                    return false;
+                }
 
-    public void SetDestination(Vector3 destination)
-    {
-        if (agent == null)
-            return;
+                if (agent.currentOffMeshLinkData.endPos.y - agent.currentOffMeshLinkData.startPos.y < -maxDropDistance)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-        agent.isStopped = false;
-        NavLinkManager.Instance.RequestPath(this, destination);
-    }
+        public void StopAndRepath()
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(agent.transform.position - agent.velocity.normalized * agent.radius, out hit, agent.height * 1.2f, NavMesh.AllAreas))
+            {
+                agent.isStopped = true;
+                agent.ResetPath();
+                agent.SetDestination(hit.position);
+            }
+            else
+            {
+                agent.isStopped = true;
+                agent.ResetPath();
+                agent.Warp(agent.currentOffMeshLinkData.startPos);
+            }
+        }
 
-    public NavMeshAgent GetAgent()
-    {
-        return agent;
+        public NavMeshAgent GetAgent()
+        {
+            return agent;
+        }
     }
 }
