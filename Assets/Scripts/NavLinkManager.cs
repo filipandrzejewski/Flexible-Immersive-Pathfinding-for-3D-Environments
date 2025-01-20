@@ -184,9 +184,10 @@ namespace FlexiblePathfindingSystem3D
                     }
                 }
 
-                if (!linkMatchedExisting) // Create new entry for existing link
+                if (!linkMatchedExisting) // No match for linkComponent means this entry does not yet exist within the list
                 {
-                    LinkData newData = new LinkData(link.startPoint, link.endPoint, link, false);
+                    // link's start and edn points have to be transformed into global coordinates
+                    LinkData newData = new LinkData(link.transform.TransformPoint(link.startPoint), link.transform.TransformPoint(link.endPoint), link, false);
                     newLinksRecognized += 1;
                     navLinks.Add(newData);
                 }
@@ -251,9 +252,10 @@ namespace FlexiblePathfindingSystem3D
 
             if (GUILayout.Button("Auto Assign Components"))
             {
-                manager.AutoAssignInstance();
-                generator.AutoAssign();
                 Debug.Log("Assigning manager components.");
+                manager.AutoAssignInstance();
+                Debug.Log($"All components present = { generator.AutoAssign()}");
+                
             }
 
         }

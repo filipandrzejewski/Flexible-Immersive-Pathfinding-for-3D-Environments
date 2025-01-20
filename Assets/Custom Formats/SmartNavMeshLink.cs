@@ -11,7 +11,7 @@ namespace FlexiblePathfindingSystem3D
         {
             if (NavLinkManager.Instance == null || NavLinkManager.Instance.navLinks == null)
             {
-                Debug.LogWarning($"NavLinkManager or navLinks list is not initialized. Could properely remove link: {gameObject.name}. Click update links to fully remove.");
+                Debug.LogWarning($"NavLinkManager or navLinks list is not initialized. Could properely remove link: {gameObject.name}. Click Update Links to fully remove and use Auto Assign button to properely initialize NavLinkManager.");
                 return;
             }
 
@@ -22,10 +22,6 @@ namespace FlexiblePathfindingSystem3D
                 Debug.Log($"Removed {removedCount} link(s) associated with {this} from NavLinkManager.");
                 EditorUtility.SetDirty(NavLinkManager.Instance);
 
-            }
-            else
-            {
-                Debug.LogWarning($"No matching link found for {gameObject.name} in NavLinkManager.");
             }
         }
     }
