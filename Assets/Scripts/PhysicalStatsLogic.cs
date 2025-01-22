@@ -32,16 +32,19 @@ namespace FlexiblePathfindingSystem3D
             {
                 isCrossingLink = true;
 
+                // this code represents a moment where the character just entered a navigation link
+
                 //this is a safeguard method for the system. Particulary usefull when using the 9999 weights method. If the 9999 weights method is not in use this function can be disabled for faster calculation
-                if (!QuickLinkValid())
-                {
-                    StopAndRepath();
-                }
+                //if (!QuickLinkValid())
+                //{
+                //    StopAndRepath();
+                //}
             }
         }
 
         public bool QuickLinkValid()
         {
+            // validates the link the character is currently stepping on
             if (agent.currentOffMeshLinkData.endPos != null)
             {
                 if (Vector3.Distance(agent.currentOffMeshLinkData.startPos, agent.currentOffMeshLinkData.endPos) > maxJumpDistance)
@@ -64,19 +67,11 @@ namespace FlexiblePathfindingSystem3D
 
         public void StopAndRepath()
         {
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(agent.transform.position - agent.velocity.normalized * agent.radius, out hit, agent.height * 1.2f, NavMesh.AllAreas))
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-                agent.SetDestination(hit.position);
-            }
-            else
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-                agent.Warp(agent.currentOffMeshLinkData.startPos);
-            }
+            agent.isStopped = true;
+            agent.ResetPath();
+            agent.Warp(agent.currentOffMeshLinkData.startPos);
+
+            // The warp method produces a noticable jitter in character motion, sometimes even apearing at the end of invalid link just for split second.
         }
 
         public NavMeshAgent GetAgent()

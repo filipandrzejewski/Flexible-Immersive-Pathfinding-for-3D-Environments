@@ -7,41 +7,60 @@ namespace FlexiblePathfindingSystem3D
     [Serializable]
     public class LinkData
     {
-        public float length;
-        public float angle;
-        public NavMeshLink linkComponent;
-        public bool wasGenerated;
-        public Vector3 linkObjectPosition;
 
+        public Vector3 Start
+        {
+            get => linkComponent.startPoint + linkObjectPosition;
+        }
+
+        public Vector3 End
+        {
+            get => linkComponent.endPoint + linkObjectPosition;
+        }
+
+        public float length;
+
+        //public float angle; // this is not necessary to be kept as a field. Angle calculations should be made in the navMeshLinkGenerator based on basic data above
+
+        public NavMeshLink linkComponent;
+        public Vector3 linkObjectPosition;
         [SerializeField]
         private int ogCostModifier;
 
-        public LinkData(Vector3 startPoint, Vector3 endPoint, NavMeshLink _linkComponent, bool generated)
+        public bool wasGenerated;
+
+        public LinkData(Vector3 origin, NavMeshLink _linkComponent, bool generated)
         {
             if (_linkComponent == null)
             {
                 Debug.LogWarning("No Link component has been passed!");
             }
-            linkObjectPosition = startPoint;
+            
             linkComponent = _linkComponent;
-            length = Vector3.Distance(start, end);
             ogCostModifier = _linkComponent.costModifier;
-            Vector3 direction = (end - start).normalized;
-            Vector3 flat = new Vector3(direction.x, 0, direction.z);
-            angle = Vector3.Angle(direction, flat);
-            if (end.y < start.y) { angle = -angle; }
+            linkObjectPosition = origin;
+
+            length = Vector3.Distance(Start, End);
+            // angle calculations:
+            //Vector3 direction = (End - Start).normalized;
+            //Vector3 flat = new Vector3(direction.x, 0, direction.z);
+            //angle = Vector3.Angle(direction, flat);
+            //if (End.y < Start.y) { angle = -angle; }
 
             wasGenerated = generated;
         }
 
-        public Vector3 start
-        {
-            get => linkComponent.startPoint + linkObjectPosition;
-        }
 
-        public Vector3 end
+        // after updating link position. This method can be substituted with parameters
+        public void RecalculateParameters()
         {
-            get => linkComponent.endPoint + linkObjectPosition;
+            linkObjectPosition = linkComponent.transform.position;
+            length = Vector3.Distance(Start, End);
+            // angle calculations:
+            //Vector3 direction = (End - Start).normalized;
+            //Vector3 flat = new Vector3(direction.x, 0, direction.z);
+            //angle = Vector3.Angle(direction, flat);
+            //if (End.y < Start.y) { angle = -angle; }
         }
 
         public void RevertCost()
@@ -49,7 +68,7 @@ namespace FlexiblePathfindingSystem3D
             linkComponent.costModifier = ogCostModifier;
         }
 
-        public void LinkActive(bool activate)
+        public void LinkActivate(bool activate)
         {
             linkComponent.transform.gameObject.SetActive(activate);
         }

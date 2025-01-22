@@ -4,6 +4,8 @@ namespace FlexiblePathfindingSystem3D
 
     public class PlayerController : MonoBehaviour
     {
+        // this class serves as an example on how to use the custom pathfinding system
+        // it should be replaced with more suitable controller for the project
         public enum MouseButton
         {
             LeftClick = 0,

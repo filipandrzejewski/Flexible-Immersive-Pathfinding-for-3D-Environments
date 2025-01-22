@@ -18,13 +18,7 @@ namespace FlexiblePathfindingSystem3D
         public Transform standardLinkPrefab;
         [SerializeField, Tooltip("[AUTO-ASSIGN: LinkPrefab(Wide)]\n Prefab used for NavMesh links stratching down from ledges")]
         public Transform dropDownLinkPrefab;
-
-        [Header("Link Raycasts")]
-        [SerializeField, Tooltip("If enabled performs customized box cast with the dimensions dependent on agent size and height of the jump arcs")]
-        public bool enableJumpArcRayCasts;
-        [SerializeField, Tooltip("Determines the stylized height of the jump arc. Is used only when jumpArcRaycast is enabled")]
-        public float maxjumpArcHeight = 1.2f;
-
+        [SerializeField] [HideInInspector] private Transform generatedLinksGroup;
 
 
         [Header("Edge Detection Settings")]
@@ -38,11 +32,6 @@ namespace FlexiblePathfindingSystem3D
         [SerializeField, Tooltip("Minimal size of a group of small edges to be averaged into one Edge")]
         public int minGroupSize = 3;
 
-        [SerializeField, HideInInspector]
-        private EdgeParameters edgeParameters; // to check if the edge settings have changed
-        [SerializeField, HideInInspector]
-        public float navMeshCheckCorrection = 0.1f; // to correct for common bug with navMesh generating slightly under geometry
-
 
         [Header("Basic Link Generation Settings")]
         [SerializeField, Tooltip("Maximum distance for conections edge to edge\n When set to 0 this parameter will be ignored")]
@@ -51,6 +40,14 @@ namespace FlexiblePathfindingSystem3D
         public float shortLinkDistance = 2;
         [SerializeField, Tooltip("Maximum distance to search for dropdown links")]
         float maxDropDownLinkDistance = 20f;
+
+
+        [Header("Link Raycasts")]
+        [SerializeField, Tooltip("If enabled performs customized box cast with the dimensions dependent on agent size and height of the jump arcs")]
+        public bool enableJumpArcRayCasts;
+        [SerializeField, Tooltip("Determines the stylized height of the jump arc. Is used only when jumpArcRaycast is enabled")]
+        public float maxjumpArcHeight = 1.2f;
+
 
         [Header("Advanced Link Generation Settings")]
         [SerializeField, Tooltip("Determines the angle at which to search for the dropdown links (is a Y component in raycast vector direction)")]
@@ -71,26 +68,19 @@ namespace FlexiblePathfindingSystem3D
         [SerializeField] private Transform debugFaloffPointPrefab;
         [SerializeField] private Transform debugCornerPointPrefab;
 
-        [Space]
 
-        [SerializeField] [HideInInspector] private (NavMeshBuildSettings settings, float correction) navMesh;
-
-        [SerializeField] [HideInInspector] private Transform generatedLinksGroup;
         [SerializeField] [HideInInspector] private List<Edge> edges = new List<Edge>();
         [SerializeField] [HideInInspector] private Vector3[] vertices; // every vertice of the nav mesh
-        [SerializeField] [HideInInspector] private int[] pairIndices; // connections between vertices paired by index in the vertices table
+        [SerializeField] [HideInInspector] private int[] pairIndices; // connections between vertices paired by index in the vertices table        
+
+        [SerializeField] [HideInInspector] private (NavMeshBuildSettings settings, float correction) navMesh;
+        [SerializeField, HideInInspector] public float navMeshCheckCorrection = 0.1f; // to correct for common bug with navMesh generating slightly under geometry
+        [SerializeField, HideInInspector] private EdgeParameters edgeParameters; // to check if the edge settings have changed
 
 
 
 
-
-        //private void Start()
-        //{
-        //    if (edges.Count == 0) { FindEdges(); }
-        //    if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
-
-        //}
-
+        // Automatically assigns all crucial parameters for sysetm to work. Intended to use in edit mode
         public bool AutoAssign()
         {
 #if UNITY_EDITOR
@@ -181,7 +171,8 @@ namespace FlexiblePathfindingSystem3D
 
             for (int i = 0; i < pairIndices.Length - 1; i += 3)
             {
-                // If a triangle has its edge repeated in another triangle the connection should be deleted as it is not actually the Edge of the solid
+                // The navMesh is composed of trianges
+                // If a triangle has its edge repeated in another triangle that edge is not the actual Edge of the solid
                 PairToEdge(i, i + 1, i + 2);
                 PairToEdge(i + 1, i + 2, i);
                 PairToEdge(i + 2, i, i + 1);
@@ -292,29 +283,6 @@ namespace FlexiblePathfindingSystem3D
             return groupedEdges;
         }
 
-        private Edge MergeEdgeGroup(List<Edge> group)
-        {
-            Vector3 averageStart = Vector3.zero;
-            Vector3 averageEnd = Vector3.zero;
-            Vector3 averageNormal = Vector3.zero;
-            float totalLength = 0f;
-
-            foreach (Edge edge in group)
-            {
-                averageStart += edge.start;
-                averageEnd += edge.end;
-                averageNormal += edge.edgeSurfaceNormal;
-                totalLength += edge.length;
-            }
-
-            averageStart /= group.Count;
-            averageEnd /= group.Count;
-            averageNormal = averageNormal.normalized;
-
-            Edge mergedEdge = new Edge(averageStart, averageEnd, averageNormal, navMesh);
-            return mergedEdge;
-        }
-
         private Edge GroupRepresentative(List<Edge> group)
         {
             Vector3 averagefalloffDirection = Vector3.zero;
@@ -346,8 +314,56 @@ namespace FlexiblePathfindingSystem3D
             }
 
             return newEdge;
-
         }
+
+        private Edge MergeEdgeGroup(List<Edge> group)
+        {
+            // Not used in current implementation. This method results in edge which location is hard to estimate.
+            // ALthough it better represents the group, an optimal offset for such edge to perform connection point checks varies too much.
+
+
+            Vector3 averageStart = Vector3.zero;
+            Vector3 averageEnd = Vector3.zero;
+            Vector3 averageNormal = Vector3.zero;
+            float totalLength = 0f;
+
+            foreach (Edge edge in group)
+            {
+                averageStart += edge.start;
+                averageEnd += edge.end;
+                averageNormal += edge.edgeSurfaceNormal;
+                totalLength += edge.length;
+            }
+
+            averageStart /= group.Count;
+            averageEnd /= group.Count;
+            averageNormal = averageNormal.normalized;
+
+            Edge mergedEdge = new Edge(averageStart, averageEnd, averageNormal, navMesh);
+            return mergedEdge;
+        }
+
+        public int HighlightEdgeDirections()
+        {
+            int numberOfHighlightedEdges = 0;
+            foreach (Edge edge in edges)
+            {
+                foreach (Vector3 connectionPoint in edge.connectionPoint)
+                {
+                    numberOfHighlightedEdges += 1;
+
+                    Vector3 start = connectionPoint;
+                    Vector3 end = connectionPoint + edge.falloffDirection * 2;
+                    Debug.DrawLine(start, end, Color.blue, 5f);
+
+                    //Vector3 start2 = connectionPoint;
+                    //Vector3 end2 = connectionPoint + Vector3.Cross(edge.falloffDirection, Vector3.Cross(edge.falloffDirection, Vector3.up)) * 2;
+                    //Debug.DrawLine(start2, end2, Color.yellow, 5f);
+                }
+            }
+            return numberOfHighlightedEdges;
+        }
+
 
 
         private void CheckCreateConditions()
@@ -404,11 +420,17 @@ namespace FlexiblePathfindingSystem3D
 
             if (edges.Count == 0)
             {
-                Debug.LogWarning("Links could not be made as there were no suitable Edges detected in the scene. Check the NavMeshSUrface setting");
+                Debug.LogWarning("Links could not be generated as there were no suitable Edges detected in the scene. " +
+                    "\nCheck the NavMeshSUrface settings");
                 return;
             }
             if (generatedLinksGroup == null) { generatedLinksGroup = new GameObject("AllLinksGroup").transform; }
-            if (standardLinkPrefab == null) { return; }
+            if (standardLinkPrefab == null) 
+            {
+                Debug.LogWarning("Links could not be generated as StandardLinkPrefab has not been assigned. " +
+                    "\nPress AutoAssign button and check the prefab has been assigned in the apropriate box.");
+                return; 
+            }
 
             float progress = 0;
             try
@@ -431,20 +453,18 @@ namespace FlexiblePathfindingSystem3D
 
                         if (ValidConnectionExists(edge, targetEdge, out startPointIndex, out endPointIndex))
                         {
-                            Transform linkObject = Instantiate(standardLinkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity); // prev: Quaternion.LookRotation(direction) apparently rotation of link does not matter at all?
+                            Transform linkObject = Instantiate(standardLinkPrefab.transform, edge.connectionPoint[startPointIndex], Quaternion.identity);
                             var link = linkObject.GetComponent<NavMeshLink>();
-
-
 
                             Vector3 globalEndPoint = targetEdge.connectionPoint[endPointIndex];
                             Vector3 localEndPoint = linkObject.InverseTransformPoint(globalEndPoint);
 
-                            navLinkManager.navLinks.Add(new
-                                (edge.connectionPoint[startPointIndex], globalEndPoint, link, true));
-
                             link.endPoint = localEndPoint;
                             link.UpdateLink();
                             linkObject.transform.SetParent(generatedLinksGroup);
+
+                            // all links prefabs should have their origin set on the startPoint
+                            navLinkManager.navLinks.Add(new(edge.connectionPoint[startPointIndex], link, true));
                         }
                     }
 
@@ -462,49 +482,9 @@ namespace FlexiblePathfindingSystem3D
         public bool LinkExists(Vector3 startPoint, Vector3 endPoint)
         {
             return navLinkManager.navLinks.Any(link =>
-                (link.start == startPoint && link.end == endPoint) ||
-                (link.start == endPoint && link.end == startPoint)
+                (link.Start == startPoint && link.End == endPoint) ||
+                (link.Start == endPoint && link.End == startPoint)
             );
-        }
-
-        public void AddDropDownLink(Edge edge)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                Quaternion rotation = Quaternion.Euler(0, dropDownLinkAngles[i], 0);
-                Vector3 checkDirection = rotation * edge.falloffDirection.normalized; // Spread direction based on falloff
-
-                //Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * checkDirection), Color.green, 5f);
-                //Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * (checkDirection + (dropDownSteepnessModifier * Vector3.down))), Color.yellow, 5f);
-
-
-                if (Physics.Raycast(edge.falloffPoint[0], checkDirection + (dropDownSteepnessModifier * Vector3.down), out RaycastHit hit, maxDropDownLinkDistance))
-                {
-                    if (LinkExists(edge.connectionPoint[0], hit.point)) { return; }
-
-                    Vector3 startPoint = edge.connectionPoint[0];
-                    Vector3 endPoint = hit.point;
-
-                    Transform linkObject = Instantiate(dropDownLinkPrefab.transform, startPoint, Quaternion.identity);
-                    var link = linkObject.GetComponent<NavMeshLink>();
-
-                    Vector3 localEndPoint = linkObject.InverseTransformPoint(endPoint);
-
-                    navLinkManager.navLinks.Add(new LinkData(startPoint, endPoint, link, true));
-
-                    link.endPoint = localEndPoint;
-                    link.UpdateLink();
-                    linkObject.transform.SetParent(generatedLinksGroup);
-
-                    return;
-
-                    //Debug.DrawLine(startPoint, endPoint, Color.green, 1f); // Debug successful link
-                }
-                else
-                {
-                    //Debug.DrawRay(rayOrigin, (rayDirection + Vector3.down) * rayDistance, Color.red, 1f); // Debug failed ray
-                }
-            }
         }
 
         public bool ValidConnectionExists(Edge edge, Edge targetEdge, out int beginIndex, out int endIndex)
@@ -524,43 +504,44 @@ namespace FlexiblePathfindingSystem3D
                         // Permisive angles:
 
                         if (Vector3.Angle(direction, edge.edgeSurfaceNormal) > permissiveAngleRestrictionUpward &
-                        Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; }
+                        Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; } //skip sharp connections with selected edge (both relative to edge surface normal and falloff direction flattened in regards to the floor) 
 
                         if (Vector3.Angle(-direction, targetEdge.edgeSurfaceNormal) > permissiveAngleRestrictionUpward &
-                            Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; }
+                            Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > permissiveAngleRestrictionForward) { continue; } //skip same sharp connections with target edge
                     }
                     else
                     {
                         //Strict angles:
 
                         if (Vector3.Angle(direction, edge.edgeSurfaceNormal) > standardAngleRestrictionUpward &
-                        Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } //skip sharp connections with selected edge (both regarding to edge surface normal and falloff direction flattened in regards to the floor)
-
+                        Vector3.Angle(direction, Vector3.ProjectOnPlane(edge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } 
 
                         if (Vector3.Angle(-direction, targetEdge.edgeSurfaceNormal) > standardAngleRestrictionUpward &
-                            Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; } //skip same sharp connections with target edge 
+                            Vector3.Angle(-direction, Vector3.ProjectOnPlane(targetEdge.falloffDirection, Vector3.up)) > standardAngleRestrictionForward) { continue; }  
                     }
 
-                    if (enableJumpArcRayCasts) // make an additionall customized box raycast to determine if the middle of the path is open enough for a jump arc
+                    if (enableJumpArcRayCasts) // make a customized box raycast to determine if the middle of the path is open enough for a jump arc
                     {
+                        // As arc height is relative to the direction of the jump it both should increase with the distance of the jump and decrease with the steepness of the jump
                         float linkArcHeight = navMesh.settings.agentHeight + (maxjumpArcHeight * distance / maxEdgeLinkDistance);
 
                         float dot = Vector3.Dot(new Vector3(direction.x, Mathf.Abs(direction.y), direction.z), Vector3.up);
                         //abs from height value means the dot product will result in value between 1 (perfectly alligned with upwards or downwards direction) and 0 (perfectly perpendicular to these directions)
-                        // I reverse the values because I want 1 - full range if the direcion if perfectly perpendicular to up) and 0 when the direction is perfectly alligned with up vector
-                        float steepnessModifier = 1 - Vector3.Dot(new Vector3(direction.x, Mathf.Abs(direction.y), direction.z), Vector3.up);
+                        // Values have to be reversed because we want 1 - full range if the direcion if perfectly horisontal and 0 when the direction is perfectly vertical
+                        float steepnessModifier = 1 - dot;
 
                         linkArcHeight *= steepnessModifier;
 
 
                         if (Physics.BoxCast(
-                            edge.falloffPoint[i] + direction * distance * 0.1f + Vector3.up * linkArcHeight * 0.5f,
+                            edge.falloffPoint[i] + 0.1f * distance * direction + 0.5f * linkArcHeight * Vector3.up,
                             new Vector3(navMesh.settings.agentRadius, linkArcHeight * 0.5f, navMesh.settings.agentRadius),
                             direction,
                             Quaternion.identity,
                             distance * 0.8f) &&
+
                             Physics.BoxCast(
-                            targetEdge.falloffPoint[i] - direction * distance * 0.1f + Vector3.up * linkArcHeight * 0.5f,
+                            targetEdge.falloffPoint[i] - 0.1f * distance * direction + 0.5f * linkArcHeight * Vector3.up,
                             new Vector3(navMesh.settings.agentRadius, linkArcHeight * 0.5f, navMesh.settings.agentRadius),
                             -direction,
                             Quaternion.identity,
@@ -574,9 +555,8 @@ namespace FlexiblePathfindingSystem3D
                             return false;
                         }
                     }
-
                     if (!Physics.Raycast(edge.falloffPoint[i], direction, distance) &&
-                            !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
+                        !Physics.Raycast(targetEdge.falloffPoint[j], -direction, distance)) // no collisions detected on a way between falloff points both ways
                     {
                         //Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.green, 5.0f);
 
@@ -585,92 +565,57 @@ namespace FlexiblePathfindingSystem3D
 
                         return true;
                     }
-                    else
-                    {
-                        //Debug.DrawLine(edge.falloffPoint[i], targetEdge.falloffPoint[j], Color.red, 5.0f);
-                    }
-
-
-
-
                 }
             }
             beginIndex = 0;
             endIndex = 0;
             return false;
-
         }
 
-        public int HighlightEdgeDirections()
+        public void AddDropDownLink(Edge edge)
         {
-            int numberOfHighlightedEdges = 0;
-            foreach (Edge edge in edges)
+            if (dropDownLinkPrefab == null)
             {
-                foreach (Vector3 connectionPoint in edge.connectionPoint)
-                {
-                    numberOfHighlightedEdges += 1;
-
-                    Vector3 start = connectionPoint;
-                    Vector3 end = connectionPoint + edge.falloffDirection * 2;
-                    Debug.DrawLine(start, end, Color.blue, 5f);
-
-                    //Vector3 start2 = connectionPoint;
-                    //Vector3 end2 = connectionPoint + Vector3.Cross(edge.falloffDirection, Vector3.Cross(edge.falloffDirection, Vector3.up)) * 2;
-                    //Debug.DrawLine(start2, end2, Color.yellow, 5f);
-                }
+                Debug.LogWarning("Dropdown link could not be generated as DropDownLinkPrefab has not been assigned. " +
+                    "\nPress AutoAssign button and check the prefab has been assigned in the apropriate box.");
+                return;
             }
-            return numberOfHighlightedEdges;
-        }
 
-        public int HighlightLinkDirections()
-        {
-            int numberOfHighlightedLinks = 0;
-            return numberOfHighlightedLinks;
-
-        }
-
-        public void HighlightAll()
-        {
-            Debug.Log($"Highlighted {HighlightEdgeDirections()} valid Edge connections and their directions (Blue).");
-
-
-        }
-
-        public void DeleteLinks()
-        {
-            for (int i = navLinkManager.navLinks.Count - 1; i >= 0; i--)
+            for (int i = 0; i < 3; i++)
             {
-                LinkData link = navLinkManager.navLinks[i];
+                Quaternion rotation = Quaternion.Euler(0, dropDownLinkAngles[i], 0);
+                Vector3 checkDirection = rotation * edge.falloffDirection.normalized; // Spread direction based on falloff
 
-                if (!link.wasGenerated) { continue; }
+                //Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * checkDirection), Color.green, 5f);
+                //Debug.DrawLine(edge.falloffPoint[0], edge.falloffPoint[0] + (2 * (checkDirection + (dropDownSteepnessModifier * Vector3.down))), Color.yellow, 5f);
 
-#if UNITY_EDITOR
-                if (!Application.isPlaying)
+
+                if (Physics.Raycast(edge.falloffPoint[0], checkDirection + (dropDownSteepnessModifier * Vector3.down), out RaycastHit hit, maxDropDownLinkDistance))
                 {
-                    if (link.linkComponent != null)
-                    {
-                        navLinkManager.DeleteLink(link.linkComponent);
-                        DestroyImmediate(link.linkComponent.gameObject);
-                    }
+                    if (LinkExists(edge.connectionPoint[0], hit.point)) { return; }
+
+                    Vector3 startPoint = edge.connectionPoint[0];
+
+                    Transform linkObject = Instantiate(dropDownLinkPrefab.transform, startPoint, Quaternion.identity);
+                    var link = linkObject.GetComponent<NavMeshLink>();
+
+
+                    navLinkManager.navLinks.Add(new LinkData(startPoint, link, true));
+
+                    Vector3 endPoint = hit.point;
+                    Vector3 localEndPoint = linkObject.InverseTransformPoint(endPoint);
+
+                    link.endPoint = localEndPoint;
+                    link.UpdateLink();
+                    linkObject.transform.SetParent(generatedLinksGroup);
+
+                    return;
                 }
                 else
                 {
-                    if (link.linkComponent != null)
-                    {
-                        Destroy(link.linkComponent.gameObject);
-                    }
+                    //Debug.DrawRay(rayOrigin, (rayDirection + Vector3.down) * rayDistance, Color.red, 1f); // Debug failed ray
                 }
-#else
-            if (link.linkComponent != null)
-            {
-                Destroy(link.linkComponent.gameObject);
             }
-#endif
-            }
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(navLinkManager);
-#endif
         }
     }
 
@@ -713,23 +658,4 @@ namespace FlexiblePathfindingSystem3D
             return false;
         }
     }
-
-
-
-    //[CustomEditor(typeof(NavMeshLinksGenerator))]
-    //public class EdgeManagerEditor : Editor
-    //{
-    //    public override void OnInspectorGUI()
-    //    {
-    //        DrawDefaultInspector();
-
-    //        NavMeshLinksGenerator navMeshLinks = (NavMeshLinksGenerator)target;
-
-    //        if (GUILayout.Button("AutoAssign"))
-    //        {
-    //            navMeshLinks.AutoAssign();
-    //        }
-    //    }
-    //}
-
 }

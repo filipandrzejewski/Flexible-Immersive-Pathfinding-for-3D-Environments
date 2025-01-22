@@ -11,11 +11,11 @@ namespace FlexiblePathfindingSystem3D
         {
             if (NavLinkManager.Instance == null || NavLinkManager.Instance.navLinks == null)
             {
-                Debug.LogWarning($"NavLinkManager or navLinks list is not initialized. Could properely remove link: {gameObject.name}. Click Update Links to fully remove and use Auto Assign button to properely initialize NavLinkManager.");
+                Debug.LogWarning($"NavLinkManager or navLinks list is not initialized. Could properely remove link: {gameObject.name}. \nClick Update Links to fully remove and use Auto Assign button to properely initialize NavLinkManager.");
                 return;
             }
 
-            int removedCount = NavLinkManager.Instance.navLinks.RemoveAll(linkData => linkData.linkComponent == this);
+            int removedCount = NavLinkManager.Instance.DeleteLink(this);
 
             if (removedCount > 0)
             {

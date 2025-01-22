@@ -20,7 +20,7 @@ namespace FlexiblePathfindingSystem3D
         [SerializeField]
         public List<LinkData> navLinks = new List<LinkData>();
 
-        //public bool isAsyncProcessingEnabled = true; //async queueing
+        //public bool isAsyncProcessingEnabled = true; //async queueing, not implemented
         private Queue<NavRequest> requestQueue = new Queue<NavRequest>();
         private bool isProcessing = false;
     
@@ -43,6 +43,11 @@ namespace FlexiblePathfindingSystem3D
             {
                 Instance = this;
             }
+        }
+
+        private void Start()
+        {
+            
         }
 
         public void RequestPath(PhysicalStatsLogic character, Vector3 destination, Action<bool> onPathCalculated = null)
@@ -84,21 +89,21 @@ namespace FlexiblePathfindingSystem3D
             {
                 if (link.length > request.character.maxJumpDistance) 
                 {
-                    link.LinkActive(false);
+                    link.LinkActivate(false);
                     invalidLinks.Add(link);
                     continue;
                 }
 
-                if (link.end.y - link.start.y > request.character.maxJumpHeight)
+                if (link.End.y - link.Start.y > request.character.maxJumpHeight)
                 {
-                    link.LinkActive(false);
+                    link.LinkActivate(false);
                     invalidLinks.Add(link);
                     continue;
                 }
 
-                if (link.end.y - link.start.y < -request.character.maxDropDistance)
+                if (link.End.y - link.Start.y < -request.character.maxDropDistance)
                 {
-                    link.LinkActive(false);
+                    link.LinkActivate(false);
                     invalidLinks.Add(link);
                     continue;
                 }
@@ -115,11 +120,11 @@ namespace FlexiblePathfindingSystem3D
 
             foreach (LinkData link in invalidLinks)
             {
-                link.LinkActive(true);
+                link.LinkActivate(true);
             }
         }
 
-        //For async queueing deleting links will be problematic. Possibly iuse weights instead:
+        //For async queueing deleting links will be problematic. Possibly use weights instead:
         /*
          * if (link.length > request.character.maxJumpDistance) 
                 { 
@@ -165,8 +170,24 @@ namespace FlexiblePathfindingSystem3D
         //    });
         //}
 
-        public int UpdateLinks()
+
+        //public int HighlightLinkDirections()
+        //{
+        //    int numberOfHighlightedLinks = 0;
+        //    return numberOfHighlightedLinks;
+
+        //}
+
+        public (int, int) UpdateLinks()
         {
+            // Cleanup linkData with no actuall reference to link object
+            int deletedLinks = navLinks.RemoveAll(data => data.linkComponent == null);
+
+            foreach (LinkData link in navLinks)
+            {
+                link.RecalculateParameters();
+            }
+
             NavMeshLink[] allLinks = FindObjectsOfType<NavMeshLink>();
 
             int newLinksRecognized = 0;
@@ -187,25 +208,59 @@ namespace FlexiblePathfindingSystem3D
                 if (!linkMatchedExisting) // No match for linkComponent means this entry does not yet exist within the list
                 {
                     // link's start and edn points have to be transformed into global coordinates
-                    LinkData newData = new LinkData(link.transform.TransformPoint(link.startPoint), link.transform.TransformPoint(link.endPoint), link, false);
+                    LinkData newData = new LinkData(link.transform.position, link, false);
                     newLinksRecognized += 1;
                     navLinks.Add(newData);
                 }
             }
 
-            // Cleanup linkData with no actuall reference to link object
-            navLinks.RemoveAll(data => data.linkComponent == null);
-
     #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
     #endif
 
-            return newLinksRecognized;
+            return (newLinksRecognized, deletedLinks);
         }
 
-        public void DeleteLink(NavMeshLink delete)
+        public void DeleteAllLinks()
         {
-            navLinks.RemoveAll(linkData => linkData.linkComponent == delete || linkData.linkComponent == null);
+            for (int i = navLinks.Count - 1; i >= 0; i--)
+            {
+                LinkData link = navLinks[i];
+
+                if (!link.wasGenerated) { continue; }
+
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                {
+                    if (link.linkComponent != null)
+                    {
+                        DeleteLink(link.linkComponent);
+                        DestroyImmediate(link.linkComponent.gameObject);
+                    }
+                }
+                else
+                {
+                    if (link.linkComponent != null)
+                    {
+                        Destroy(link.linkComponent.gameObject);
+                    }
+                }
+#else
+            if (link.linkComponent != null)
+            {
+                Destroy(link.linkComponent.gameObject);
+            }
+#endif
+            }
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
+        }
+
+        public int DeleteLink(NavMeshLink delete)
+        {
+            return navLinks.RemoveAll(linkData => linkData.linkComponent == delete);
         }
 
         public List<LinkData> GetLinkDataList()
@@ -237,16 +292,18 @@ namespace FlexiblePathfindingSystem3D
             }
             if (GUILayout.Button("Delete Links"))
             {
-                generator.DeleteLinks();
+                manager.DeleteAllLinks();
             }
-            if (GUILayout.Button("Highlight Links and Edges"))
+            if (GUILayout.Button("Highlight"))
             {
-                generator.HighlightAll();
+                Debug.Log($"Highlighted {generator.HighlightEdgeDirections()} valid Edge connections and their directions (Blue).");
+                // potentially highlight link directions here as well
             }
             if (GUILayout.Button("Update Links"))
             {
                 Debug.Log($"Updating NavMesh Links.");
-                manager.UpdateLinks();
+                (int, int) result = manager.UpdateLinks();
+                Debug.Log($"New links found and indexed: {result.Item1},\n Deleted links without reference: {result.Item2}");
             
             }
 
