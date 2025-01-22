@@ -37,7 +37,7 @@ namespace FlexiblePathfindingSystem3D
             }
             
             linkComponent = _linkComponent;
-            ogCostModifier = _linkComponent.costModifier;
+            ogCostModifier = (int)_linkComponent.costModifier;
             linkObjectPosition = origin;
 
             length = Vector3.Distance(Start, End);

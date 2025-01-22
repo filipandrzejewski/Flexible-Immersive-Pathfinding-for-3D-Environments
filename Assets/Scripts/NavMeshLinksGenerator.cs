@@ -22,24 +22,24 @@ namespace FlexiblePathfindingSystem3D
 
 
         [Header("Edge Detection Settings")]
-        [SerializeField, Tooltip("[NOT IMPLEMENTED YET] Edges longer than specified value will be divided into 2 edges.")]
-        [HideInInspector] // not implemented. This seems to be of little use as the edge max length can be also controlled by the navMesh partitioning settings
-        public float maxEdgeLength = 8f;
         [SerializeField, Tooltip("Edges shorter than specified value will be averaged and grouped based on their neighbours.\n When set to 0 this parameter will be ignored")]
-        public float minEdgeLength = 0.2f;
+        public float minEdgeLength = 1.5f;
         [SerializeField, Tooltip("Maximal size of a group of small edges to be averaged into one Edge")]
-        public int maxGroupSize = 6;
+        public int maxGroupSize = 4;
         [SerializeField, Tooltip("Minimal size of a group of small edges to be averaged into one Edge")]
-        public int minGroupSize = 3;
+        public int minGroupSize = 1;
+        [SerializeField, HideInInspector, Tooltip("[NOT IMPLEMENTED YET] Edges longer than specified value will be divided into 2 edges.")]
+        // not implemented. This seems to be of little use as the edge max length can be also controlled by the navMesh partitioning settings
+        public float maxEdgeLength = 8f;
 
 
         [Header("Basic Link Generation Settings")]
         [SerializeField, Tooltip("Maximum distance for conections edge to edge\n When set to 0 this parameter will be ignored")]
-        public float maxEdgeLinkDistance = 16;
+        public float maxEdgeLinkDistance = 12;
         [SerializeField, Tooltip("Distance at which links will be created with less restrictions")]
         public float shortLinkDistance = 2;
         [SerializeField, Tooltip("Maximum distance to search for dropdown links")]
-        float maxDropDownLinkDistance = 20f;
+        float maxDropDownLinkDistance = 16;
 
 
         [Header("Link Raycasts")]
