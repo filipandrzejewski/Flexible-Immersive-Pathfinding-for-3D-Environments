@@ -7,7 +7,7 @@ The system uses one Navmesh to guide multiple agents with paths determined by th
 
 For **User Setup Guide** see below
 
-For **Technical Documentation** see Technical_Documentation.pdf
+For **Technical Documentation** see FPS3DE_Technical_Documentation.pdf
 
 
 ## User Setup Guide 
