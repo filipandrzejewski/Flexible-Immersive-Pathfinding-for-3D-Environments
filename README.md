@@ -20,6 +20,10 @@ This document provides a comprehensive guide on how to use the Flexible Pathfind
 
 It is recommended to use these systems together for optimal results. However, they can also be used independently if needed.
 
+Before the setup it is important to note that this tool uses the Unity version 2022.3.52f1 and a Unity AI navigation package Unity.AI.Navigation. Make sure the version is correct and that the project contains the appropriate package, otherwise additional adjustments may need to be made.
+
+Below are the setup guides after the installation of this package for each of the systems (link generation and pathfinding logic)
+
 ---
 
 ### Link Generation
