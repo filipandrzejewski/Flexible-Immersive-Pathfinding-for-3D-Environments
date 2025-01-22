@@ -18,10 +18,10 @@ namespace FlexiblePathfindingSystem3D
         public static NavLinkManager Instance { get; private set; }
 
         [SerializeField]
-        public List<LinkData> navLinks = new List<LinkData>();
+        private List<LinkData> navLinks = new();
 
         //public bool isAsyncProcessingEnabled = true; //async queueing, not implemented
-        private Queue<NavRequest> requestQueue = new Queue<NavRequest>();
+        private Queue<NavRequest> requestQueue = new();
         private bool isProcessing = false;
     
 
@@ -37,22 +37,14 @@ namespace FlexiblePathfindingSystem3D
             }
         }
 
-        public void AutoAssignInstance()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-        }
-
         private void Start()
         {
-            
+            UpdateLinks();
         }
 
         public void RequestPath(PhysicalStatsLogic character, Vector3 destination, Action<bool> onPathCalculated = null)
         {
-            NavRequest newRequest = new NavRequest(character, destination, onPathCalculated);
+            NavRequest newRequest = new(character, destination, onPathCalculated);
             requestQueue.Enqueue(newRequest);
 
             if (!isProcessing)
@@ -84,7 +76,7 @@ namespace FlexiblePathfindingSystem3D
 
         private void ProcessPathSync(NavRequest request)
         {
-            List<LinkData> invalidLinks = new List<LinkData>();
+            List<LinkData> invalidLinks = new();
             foreach (LinkData link in navLinks)
             {
                 if (link.length > request.character.maxJumpDistance) 
@@ -108,7 +100,7 @@ namespace FlexiblePathfindingSystem3D
                     continue;
                 }
             }
-            NavMeshPath path = new NavMeshPath();
+            NavMeshPath path = new();
             bool hasPath = request.character.GetAgent().CalculatePath(request.destination, path);
 
             if (hasPath)
@@ -124,7 +116,7 @@ namespace FlexiblePathfindingSystem3D
             }
         }
 
-        //For async queueing deleting links will be problematic. Possibly use weights instead:
+        //For async queueing deactivating links will be problematic. Possibly use weights instead:
         /*
          * if (link.length > request.character.maxJumpDistance) 
                 { 
@@ -178,6 +170,11 @@ namespace FlexiblePathfindingSystem3D
 
         //}
 
+        public void AddLink(LinkData newLink)
+        {
+            navLinks.Add(newLink);
+        }
+
         public (int, int) UpdateLinks()
         {
             // Cleanup linkData with no actuall reference to link object
@@ -208,7 +205,7 @@ namespace FlexiblePathfindingSystem3D
                 if (!linkMatchedExisting) // No match for linkComponent means this entry does not yet exist within the list
                 {
                     // link's start and edn points have to be transformed into global coordinates
-                    LinkData newData = new LinkData(link.transform.position, link, false);
+                    LinkData newData = new(link.transform.position, link, false);
                     newLinksRecognized += 1;
                     navLinks.Add(newData);
                 }
@@ -266,6 +263,14 @@ namespace FlexiblePathfindingSystem3D
         public List<LinkData> GetLinkDataList()
         {
             return navLinks;
+        }
+
+        public void AutoAssignInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
     }
 

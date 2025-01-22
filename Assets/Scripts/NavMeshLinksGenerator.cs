@@ -69,7 +69,7 @@ namespace FlexiblePathfindingSystem3D
         [SerializeField] private Transform debugCornerPointPrefab;
 
 
-        [SerializeField] [HideInInspector] private List<Edge> edges = new List<Edge>();
+        [SerializeField] [HideInInspector] private List<Edge> edges = new();
         [SerializeField] [HideInInspector] private Vector3[] vertices; // every vertice of the nav mesh
         [SerializeField] [HideInInspector] private int[] pairIndices; // connections between vertices paired by index in the vertices table        
 
@@ -224,7 +224,7 @@ namespace FlexiblePathfindingSystem3D
             Vector3 surfaceNormal = Vector3.Cross(point2 - point1, surfaceVector).normalized;
 
 
-            Edge newEdge = new Edge(point1, point2, surfaceNormal, navMesh);
+            Edge newEdge = new(point1, point2, surfaceNormal, navMesh);
 
             //remove duplicate connection as they are not edges
             foreach (Edge edge in edges)
@@ -242,15 +242,15 @@ namespace FlexiblePathfindingSystem3D
         private List<List<Edge>> GroupShortEdges()
         {
             List<Edge> shortEdges = edges.FindAll(edge => edge.length < minEdgeLength);
-            List<List<Edge>> groupedEdges = new List<List<Edge>>();
-            HashSet<Edge> visited = new HashSet<Edge>();
+            List<List<Edge>> groupedEdges = new();
+            HashSet<Edge> visited = new();
 
             foreach (Edge edge in shortEdges)
             {
                 if (visited.Contains(edge)) continue;
 
-                List<Edge> group = new List<Edge>();
-                Stack<Edge> stack = new Stack<Edge>();
+                List<Edge> group = new();
+                Stack<Edge> stack = new();
                 stack.Push(edge);
 
                 while (stack.Count > 0 && group.Count < maxGroupSize)
@@ -339,7 +339,7 @@ namespace FlexiblePathfindingSystem3D
             averageEnd /= group.Count;
             averageNormal = averageNormal.normalized;
 
-            Edge mergedEdge = new Edge(averageStart, averageEnd, averageNormal, navMesh);
+            Edge mergedEdge = new(averageStart, averageEnd, averageNormal, navMesh);
             return mergedEdge;
         }
 
@@ -464,7 +464,7 @@ namespace FlexiblePathfindingSystem3D
                             linkObject.transform.SetParent(generatedLinksGroup);
 
                             // all links prefabs should have their origin set on the startPoint
-                            navLinkManager.navLinks.Add(new(edge.connectionPoint[startPointIndex], link, true));
+                            navLinkManager.AddLink(new(edge.connectionPoint[startPointIndex], link, true));
                         }
                     }
 
@@ -481,7 +481,7 @@ namespace FlexiblePathfindingSystem3D
 
         public bool LinkExists(Vector3 startPoint, Vector3 endPoint)
         {
-            return navLinkManager.navLinks.Any(link =>
+            return navLinkManager.GetLinkDataList().Any(link =>
                 (link.Start == startPoint && link.End == endPoint) ||
                 (link.Start == endPoint && link.End == startPoint)
             );
@@ -600,7 +600,7 @@ namespace FlexiblePathfindingSystem3D
                     var link = linkObject.GetComponent<NavMeshLink>();
 
 
-                    navLinkManager.navLinks.Add(new LinkData(startPoint, link, true));
+                    navLinkManager.AddLink(new(startPoint, link, true));
 
                     Vector3 endPoint = hit.point;
                     Vector3 localEndPoint = linkObject.InverseTransformPoint(endPoint);

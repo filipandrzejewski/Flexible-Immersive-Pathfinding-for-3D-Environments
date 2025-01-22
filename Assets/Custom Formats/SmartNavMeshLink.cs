@@ -9,7 +9,7 @@ namespace FlexiblePathfindingSystem3D
     {
         private void OnDestroy()
         {
-            if (NavLinkManager.Instance == null || NavLinkManager.Instance.navLinks == null)
+            if (NavLinkManager.Instance == null || NavLinkManager.Instance.GetLinkDataList() == null)
             {
                 Debug.LogWarning($"NavLinkManager or navLinks list is not initialized. Could properely remove link: {gameObject.name}. \nClick Update Links to fully remove and use Auto Assign button to properely initialize NavLinkManager.");
                 return;

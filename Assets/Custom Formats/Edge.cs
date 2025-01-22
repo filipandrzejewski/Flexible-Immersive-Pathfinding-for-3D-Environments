@@ -14,14 +14,15 @@ namespace FlexiblePathfindingSystem3D
         public float length;
         public Vector3 edgeSurfaceNormal; // normal of a surface this edge is a part of 
 
-        // Points are structured in form of lists. Having multiple points could later be used to smooth the connections so that every connection uses the straightest path to the edge.
-        public List<Vector3> connectionPoint = new List<Vector3>();
+        // Points on the edge which will be used for connecting links. They are structured in form of lists.
+        // Having multiple points could later be used to smooth the connections so that every connection uses the straightest path to the edge.
+        public List<Vector3> connectionPoint = new();
 
         // direction of the ledge - where mesh ends or goes steeply down
         public Vector3 falloffDirection; 
 
-        // points in the middle of the edge slightly shifted towards the ledge 
-        public List<Vector3> falloffPoint = new List<Vector3>(); 
+        // Same as connectionPoints but slightly shifted towards the ledge so that they hover over. Used for collision checks.
+        public List<Vector3> falloffPoint = new(); 
 
         public bool hasPivotPoint = false;
 
