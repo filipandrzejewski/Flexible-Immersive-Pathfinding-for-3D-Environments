@@ -1,4 +1,15 @@
 # Flexible Pathfinding System for 3D Environments
+This project provides a Unity tool for version 2022.3.52f1 which greatly improves the in-built off-mesh link (NavMeshLink) generation as well as includes a customized pathfinding system fully utilizing the potential of the improved NavMesh.
+
+The system is ment to incorporate even **high resolution**, **multi-layered**, **vertical terrain**. It may require manual adjustment as it could generate an overabundance of links even to the areas which should not be accessed.
+
+The system uses one Navmesh to guide multiple agents with paths determined by their physical statistics set by the user. It can greatly improve the immersion of the game by presenting each non-player character with unique physical capabilities, adding variety to the movement and making the world appear more alive.
+
+For **User Setup Guide** see below
+
+For **Technical Documentation** see Technical_Documentation.pdf
+
+
 ## User Setup Guide 
 
 ### Introduction
