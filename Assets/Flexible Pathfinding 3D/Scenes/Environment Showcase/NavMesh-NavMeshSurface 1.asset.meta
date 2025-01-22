@@ -1,8 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Flexible Pathfinding 3D/Scenes/Environment Showcase/NavMesh-NavMeshSurface 1.asset.meta
 guid: 8e2376c04e938d9479577a5032e75443
 NativeFormatImporter:
+========
+guid: e51b3694b363c074796cd5e6d9dc4345
+DefaultImporter:
+>>>>>>>> Stashed changes:Assets/Flexible Pathfinding 3D/FPS3DE_User_Setup_Guide.pdf.meta
   externalObjects: {}
-  mainObjectFileID: 23800000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
